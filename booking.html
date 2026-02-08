@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Ride - Bobby's Motorbike Rental Bantayan Island</title>
+    <meta name="description" content="Book your motorbike rental on Bantayan Island. Honda Click 125 ₱250/day, Yamaha Mio Fazzio ₱350/day. WhatsApp booking. Government ID required.">
+    <meta name="keywords" content="book motorbike Bantayan, rent scooter Bantayan online, Honda Click booking, Yamaha rental Philippines">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo img {
+            max-height: 50px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f4c430 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(244, 196, 48, 0.1);
+        }
+
+        .form-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-section h2 {
+            color: #f4c430;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-section h2 svg {
+            width: 24px;
+            height: 24px;
+            fill: #f4c430;
+        }
+
+        /* Bike Selection */
+        .bike-options {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .bike-option {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bike-option:hover {
+            border-color: #f4c430;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(244, 196, 48, 0.2);
+        }
+
+        .bike-option.selected {
+            border-color: #f4c430;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            box-shadow: 0 0 20px rgba(244, 196, 48, 0.3);
+        }
+
+        .bike-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #f4c430;
+        }
+
+        .bike-details {
+            flex: 1;
+        }
+
+        .bike-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.3rem;
+        }
+
+        .bike-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #f4c430;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #cccccc;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group label svg {
+            width: 18px;
+            height: 18px;
+            fill: #f4c430;
+            flex-shrink: 0;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: #0a0a0a;
+            border: 2px solid #333;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #f4c430;
+            box-shadow: 0 0 10px rgba(244, 196, 48, 0.2);
+        }
+
+        .form-group input::placeholder {
+            color: #666;
+        }
+
+        /* Date Time Grid */
+        .datetime-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 1.2rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f4c430 0%, #d4a500 100%);
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(244, 196, 48, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(244, 196, 48, 0.5);
+            background: linear-gradient(135deg, #ffd700 0%, #f4c430 100%);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #f4c430;
+            border: 2px solid #f4c430;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(244, 196, 48, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #1ebe57 100%);
+            color: #ffffff;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.5);
+            background: linear-gradient(135deg, #1ebe57 0%, #25D366 100%);
+        }
+
+        .btn-whatsapp:disabled {
+            background: linear-gradient(135deg, #444 0%, #333 100%);
+            cursor: not-allowed;
+            opacity: 0.5;
+            box-shadow: none;
+        }
+
+        .btn-whatsapp:disabled {
+            background: linear-gradient(135deg, #555555 0%, #333333 100%);
+            cursor: not-allowed;
+            opacity: 0.5;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-whatsapp:disabled:hover {
+            transform: none;
+            box-shadow: none;
+            background: linear-gradient(135deg, #555555 0%, #333333 100%);
+        }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Terms and Conditions Checkbox */
+        .terms-agreement {
+            background: rgba(244, 196, 48, 0.05);
+            border: 2px solid #f4c430;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .terms-agreement input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #f4c430;
+            flex-shrink: 0;
+        }
+
+        .terms-agreement label {
+            color: #ffffff;
+            font-size: 1rem;
+            line-height: 1.6;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .terms-agreement a {
+            color: #f4c430;
+            text-decoration: underline;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .terms-agreement a:hover {
+            color: #ffd700;
+        }
+
+        .terms-error {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+            padding: 2rem;
+            margin-top: 5rem;
+            border-top: 1px solid #333;
+            text-align: center;
+        }
+
+        footer p {
+            color: #888;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+                margin: 2rem auto;
+            }
+
+            .booking-form {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-title h1 {
+                font-size: 2rem;
+            }
+
+            .datetime-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            nav {
+                padding: 0 1rem;
+            }
+
+            .logo img {
+                max-height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img {
+                max-height: 35px;
+            }
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+
+            .bike-option {
+                padding: 1rem;
+            }
+
+            .bike-name {
+                font-size: 1rem;
+            }
+
+            .bike-price {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="BMR.png" alt="Bobby's Motorbike Rental" style="height: 50px; width: auto;">
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-title">
+            <h1>Book Your Ride</h1>
+            <p>Fill out the form below to reserve your motorbike</p>
+        </div>
+
+        <!-- Requirements Notice -->
+        <div style="background: linear-gradient(135deg, #2a1a00 0%, #1a1000 100%); border: 2px solid #f4c430; border-radius: 15px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(244, 196, 48, 0.2);">
+            <h3 style="color: #f4c430; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px; fill: #f4c430;">
+                    <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                </svg>
+                Important Requirements
+            </h3>
+            <ul style="color: #e0e0e0; line-height: 2; margin-left: 1.5rem;">
+                <li><strong style="color: #f4c430;">Valid Government ID Required</strong> (National ID, Postal ID, Voter's ID, etc.)</li>
+                <li><strong style="color: #ff6b6b;">We DO NOT accept:</strong> Passport or Driver's License</li>
+                <li>Must present original ID upon pick-up</li>
+            </ul>
+        </div>
+
+        <!-- WhatsApp Only Notice -->
+        <div style="background: linear-gradient(135deg, #1a3a1a 0%, #0a1a0a 100%); border: 2px solid #25D366; border-radius: 15px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(37, 211, 102, 0.2);">
+            <h3 style="color: #25D366; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 28px; height: 28px; fill: #25D366;">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                WhatsApp ONLY Communication
+            </h3>
+            <p style="color: #e0e0e0; line-height: 1.8; margin-bottom: 1rem;">
+                <strong style="color: #25D366;">We ONLY accept inquiries and bookings via WhatsApp.</strong>
+            </p>
+            <ul style="color: #e0e0e0; line-height: 2; margin-left: 1.5rem;">
+                <li><strong style="color: #ff6b6b;">We DO NOT accept:</strong> Phone calls, SMS/Text messages, Facebook Messenger, or other messaging apps</li>
+                <li>After filling out send it via <strong style="color: #25D366;">WhatsApp</strong></li>
+            </ul>
+        </div>
+
+        <div class="booking-form">
+            <form id="bookingForm">
+                <!-- Bike Selection -->
+                <div class="form-section">
+                    <h2>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.5 14c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM6.5 14C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5S8.43 14 6.5 14zm0 5c-.83 0-1.5-.67-1.5-1.5S5.67 16 6.5 16s1.5.67 1.5 1.5S7.33 19 6.5 19z"/>
+                        </svg>
+                        Choose Your Bike
+                    </h2>
+                    <div class="bike-options">
+                        <label class="bike-option">
+                            <input type="radio" name="bike" value="Honda Click 125 V3|250" required>
+                            <div class="bike-details">
+                                <div class="bike-name">Honda Click 125 V3</div>
+                                <div class="bike-price">₱250/day</div>
+                            </div>
+                        </label>
+                        <label class="bike-option">
+                            <input type="radio" name="bike" value="Honda Click 125i|250" required>
+                            <div class="bike-details">
+                                <div class="bike-name">Honda Click 125i</div>
+                                <div class="bike-price">₱250/day</div>
+                            </div>
+                        </label>
+                        <label class="bike-option">
+                            <input type="radio" name="bike" value="Yamaha Mio Fazzio|350" required>
+                            <div class="bike-details">
+                                <div class="bike-name">Yamaha Mio Fazzio</div>
+                                <div class="bike-price">₱350/day</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Customer Details -->
+                <div class="form-section">
+                    <h2>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                        Your Details
+                    </h2>
+                    <div class="form-group">
+                        <label for="name">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                            Full Name *
+                        </label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/>
+                            </svg>
+                            Gender *
+                        </label>
+                        <div style="display: flex; gap: 2rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="gender" value="Male" required style="width: auto; cursor: pointer; accent-color: #f4c430;">
+                                <span>Male</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="gender" value="Female" required style="width: auto; cursor: pointer; accent-color: #f4c430;">
+                                <span>Female</span>
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                                <input type="radio" name="gender" value="Other" required style="width: auto; cursor: pointer; accent-color: #f4c430;">
+                                <span>Other</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nationality">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                            </svg>
+                            Nationality *
+                        </label>
+                        <select id="nationality" name="nationality" required>
+                            <option value="">Select your nationality</option>
+                            <option value="Afghan">Afghan</option>
+                            <option value="Albanian">Albanian</option>
+                            <option value="Algerian">Algerian</option>
+                            <option value="American">American</option>
+                            <option value="Andorran">Andorran</option>
+                            <option value="Angolan">Angolan</option>
+                            <option value="Argentinian">Argentinian</option>
+                            <option value="Armenian">Armenian</option>
+                            <option value="Australian">Australian</option>
+                            <option value="Austrian">Austrian</option>
+                            <option value="Azerbaijani">Azerbaijani</option>
+                            <option value="Bahamian">Bahamian</option>
+                            <option value="Bahraini">Bahraini</option>
+                            <option value="Bangladeshi">Bangladeshi</option>
+                            <option value="Barbadian">Barbadian</option>
+                            <option value="Belarusian">Belarusian</option>
+                            <option value="Belgian">Belgian</option>
+                            <option value="Belizean">Belizean</option>
+                            <option value="Beninese">Beninese</option>
+                            <option value="Bhutanese">Bhutanese</option>
+                            <option value="Bolivian">Bolivian</option>
+                            <option value="Bosnian">Bosnian</option>
+                            <option value="Brazilian">Brazilian</option>
+                            <option value="British">British</option>
+                            <option value="Bruneian">Bruneian</option>
+                            <option value="Bulgarian">Bulgarian</option>
+                            <option value="Burkinabe">Burkinabe</option>
+                            <option value="Burmese">Burmese</option>
+                            <option value="Burundian">Burundian</option>
+                            <option value="Cambodian">Cambodian</option>
+                            <option value="Cameroonian">Cameroonian</option>
+                            <option value="Canadian">Canadian</option>
+                            <option value="Cape Verdean">Cape Verdean</option>
+                            <option value="Central African">Central African</option>
+                            <option value="Chadian">Chadian</option>
+                            <option value="Chilean">Chilean</option>
+                            <option value="Chinese">Chinese</option>
+                            <option value="Colombian">Colombian</option>
+                            <option value="Comoran">Comoran</option>
+                            <option value="Congolese">Congolese</option>
+                            <option value="Costa Rican">Costa Rican</option>
+                            <option value="Croatian">Croatian</option>
+                            <option value="Cuban">Cuban</option>
+                            <option value="Cypriot">Cypriot</option>
+                            <option value="Czech">Czech</option>
+                            <option value="Danish">Danish</option>
+                            <option value="Djiboutian">Djiboutian</option>
+                            <option value="Dominican">Dominican</option>
+                            <option value="Dutch">Dutch</option>
+                            <option value="Ecuadorean">Ecuadorean</option>
+                            <option value="Egyptian">Egyptian</option>
+                            <option value="Emirati">Emirati</option>
+                            <option value="English">English</option>
+                            <option value="Eritrean">Eritrean</option>
+                            <option value="Estonian">Estonian</option>
+                            <option value="Ethiopian">Ethiopian</option>
+                            <option value="Fijian">Fijian</option>
+                            <option value="Filipino" selected>Filipino</option>
+                            <option value="Finnish">Finnish</option>
+                            <option value="French">French</option>
+                            <option value="Gabonese">Gabonese</option>
+                            <option value="Gambian">Gambian</option>
+                            <option value="Georgian">Georgian</option>
+                            <option value="German">German</option>
+                            <option value="Ghanaian">Ghanaian</option>
+                            <option value="Greek">Greek</option>
+                            <option value="Grenadian">Grenadian</option>
+                            <option value="Guatemalan">Guatemalan</option>
+                            <option value="Guinean">Guinean</option>
+                            <option value="Guyanese">Guyanese</option>
+                            <option value="Haitian">Haitian</option>
+                            <option value="Honduran">Honduran</option>
+                            <option value="Hungarian">Hungarian</option>
+                            <option value="Icelandic">Icelandic</option>
+                            <option value="Indian">Indian</option>
+                            <option value="Indonesian">Indonesian</option>
+                            <option value="Iranian">Iranian</option>
+                            <option value="Iraqi">Iraqi</option>
+                            <option value="Irish">Irish</option>
+                            <option value="Israeli">Israeli</option>
+                            <option value="Italian">Italian</option>
+                            <option value="Ivorian">Ivorian</option>
+                            <option value="Jamaican">Jamaican</option>
+                            <option value="Japanese">Japanese</option>
+                            <option value="Jordanian">Jordanian</option>
+                            <option value="Kazakh">Kazakh</option>
+                            <option value="Kenyan">Kenyan</option>
+                            <option value="Korean">Korean</option>
+                            <option value="Kuwaiti">Kuwaiti</option>
+                            <option value="Kyrgyz">Kyrgyz</option>
+                            <option value="Laotian">Laotian</option>
+                            <option value="Latvian">Latvian</option>
+                            <option value="Lebanese">Lebanese</option>
+                            <option value="Liberian">Liberian</option>
+                            <option value="Libyan">Libyan</option>
+                            <option value="Liechtensteiner">Liechtensteiner</option>
+                            <option value="Lithuanian">Lithuanian</option>
+                            <option value="Luxembourger">Luxembourger</option>
+                            <option value="Macedonian">Macedonian</option>
+                            <option value="Malagasy">Malagasy</option>
+                            <option value="Malawian">Malawian</option>
+                            <option value="Malaysian">Malaysian</option>
+                            <option value="Maldivian">Maldivian</option>
+                            <option value="Malian">Malian</option>
+                            <option value="Maltese">Maltese</option>
+                            <option value="Mauritanian">Mauritanian</option>
+                            <option value="Mauritian">Mauritian</option>
+                            <option value="Mexican">Mexican</option>
+                            <option value="Moldovan">Moldovan</option>
+                            <option value="Monacan">Monacan</option>
+                            <option value="Mongolian">Mongolian</option>
+                            <option value="Montenegrin">Montenegrin</option>
+                            <option value="Moroccan">Moroccan</option>
+                            <option value="Mozambican">Mozambican</option>
+                            <option value="Namibian">Namibian</option>
+                            <option value="Nepalese">Nepalese</option>
+                            <option value="New Zealander">New Zealander</option>
+                            <option value="Nicaraguan">Nicaraguan</option>
+                            <option value="Nigerian">Nigerian</option>
+                            <option value="Nigerien">Nigerien</option>
+                            <option value="Norwegian">Norwegian</option>
+                            <option value="Omani">Omani</option>
+                            <option value="Pakistani">Pakistani</option>
+                            <option value="Panamanian">Panamanian</option>
+                            <option value="Papua New Guinean">Papua New Guinean</option>
+                            <option value="Paraguayan">Paraguayan</option>
+                            <option value="Peruvian">Peruvian</option>
+                            <option value="Polish">Polish</option>
+                            <option value="Portuguese">Portuguese</option>
+                            <option value="Qatari">Qatari</option>
+                            <option value="Romanian">Romanian</option>
+                            <option value="Russian">Russian</option>
+                            <option value="Rwandan">Rwandan</option>
+                            <option value="Saudi">Saudi</option>
+                            <option value="Scottish">Scottish</option>
+                            <option value="Senegalese">Senegalese</option>
+                            <option value="Serbian">Serbian</option>
+                            <option value="Singaporean">Singaporean</option>
+                            <option value="Slovak">Slovak</option>
+                            <option value="Slovenian">Slovenian</option>
+                            <option value="Somali">Somali</option>
+                            <option value="South African">South African</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="Sri Lankan">Sri Lankan</option>
+                            <option value="Sudanese">Sudanese</option>
+                            <option value="Surinamese">Surinamese</option>
+                            <option value="Swedish">Swedish</option>
+                            <option value="Swiss">Swiss</option>
+                            <option value="Syrian">Syrian</option>
+                            <option value="Taiwanese">Taiwanese</option>
+                            <option value="Tajik">Tajik</option>
+                            <option value="Tanzanian">Tanzanian</option>
+                            <option value="Thai">Thai</option>
+                            <option value="Togolese">Togolese</option>
+                            <option value="Tongan">Tongan</option>
+                            <option value="Trinidadian">Trinidadian</option>
+                            <option value="Tunisian">Tunisian</option>
+                            <option value="Turkish">Turkish</option>
+                            <option value="Turkmen">Turkmen</option>
+                            <option value="Ugandan">Ugandan</option>
+                            <option value="Ukrainian">Ukrainian</option>
+                            <option value="Uruguayan">Uruguayan</option>
+                            <option value="Uzbek">Uzbek</option>
+                            <option value="Venezuelan">Venezuelan</option>
+                            <option value="Vietnamese">Vietnamese</option>
+                            <option value="Welsh">Welsh</option>
+                            <option value="Yemeni">Yemeni</option>
+                            <option value="Zambian">Zambian</option>
+                            <option value="Zimbabwean">Zimbabwean</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="age">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                            </svg>
+                            Age *
+                        </label>
+                        <input type="number" id="age" name="age" placeholder="Enter your age" min="18" max="100" required>
+                        <small style="color: #888; font-size: 0.9rem; display: block; margin-top: 0.5rem;">Must be 18 years or older to rent</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 13c1.66 0 3-1.34 3-3S8.66 7 7 7s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H3V7H1v13h2v-2h18v2h2v-9c0-2.21-1.79-4-4-4z"/>
+                            </svg>
+                            Accommodation Address *
+                        </label>
+                        <input type="text" id="location" name="location" placeholder="e.g., Sunset Beach Resort, Room 205, Santa Fe" required>
+                        <small style="color: #888; font-size: 0.9rem; display: block; margin-top: 0.5rem;">Please provide your hotel/resort/apartment name and room number</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
+                            Contact Number *
+                        </label>
+                        <input type="tel" id="phone" name="phone" placeholder="e.g., 09123456789" required>
+                    </div>
+                </div>
+
+                <!-- Rental Details -->
+                <div class="form-section">
+                    <h2>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                        </svg>
+                        Rental Period
+                    </h2>
+                    <div class="datetime-grid">
+                        <div class="form-group">
+                            <label for="start-date">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                                </svg>
+                                Start Date *
+                            </label>
+                            <input type="date" id="start-date" name="start-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="start-time">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                                </svg>
+                                Start Time *
+                            </label>
+                            <input type="time" id="start-time" name="start-time" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rental-days">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                            </svg>
+                            Number of Days *
+                        </label>
+                        <input type="number" id="rental-days" name="rental-days" placeholder="Enter number of days" min="1" max="365" required>
+                        <small style="color: #888; font-size: 0.9rem; display: block; margin-top: 0.5rem;">Minimum 1 day rental</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="helmets">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                            </svg>
+                            Helmets *
+                        </label>
+                        <select id="helmets" name="helmets" required>
+                            <option value="">Select number of helmets</option>
+                            <option value="None">None</option>
+                            <option value="1">1 Helmet</option>
+                            <option value="2">2 Helmets</option>
+                        </select>
+                        <small style="color: #888; font-size: 0.9rem; display: block; margin-top: 0.5rem;">Helmets are included free with your rental</small>
+                    </div>
+                </div>
+
+                <!-- Terms and Conditions Agreement -->
+                <div class="terms-agreement">
+                    <input type="checkbox" id="terms-checkbox" name="terms" required>
+                    <label for="terms-checkbox">
+                        I agree to the <a href="terms.html" target="_blank">Terms and Conditions</a> and understand all rental requirements including the ID policy.
+                    </label>
+                </div>
+                <div class="terms-error" id="terms-error">
+                    Please accept the Terms and Conditions to proceed with booking.
+                </div>
+
+                <!-- Generate Button -->
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-whatsapp" id="submit-btn" disabled>
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                        Send via WhatsApp
+                    </button>
+                </div>
+            </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Bobby's Motorbike Rental. All rights reserved.</p>
+        <p style="margin-top: 1.5rem;">
+            <a href="index.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Home</a>
+            <a href="about.html" style="color: #888; text-decoration: none; margin: 0 1rem;">About Us</a>
+            <a href="blog.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Blog</a>
+            <a href="faq.html" style="color: #888; text-decoration: none; margin: 0 1rem;">FAQ</a>
+            <a href="contact.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Contact</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            <a href="privacy-policy.html" style="color: #666; text-decoration: none; margin: 0 0.75rem;">Privacy Policy</a>
+            <a href="terms.html" style="color: #666; text-decoration: none; margin: 0 0.75rem;">Terms & Conditions</a>
+        </p>
+    </footer>
+
+    <script>
+        // Bike selection highlight
+        const bikeOptions = document.querySelectorAll('.bike-option');
+        bikeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                bikeOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Set minimum date to today
+        const startDateInput = document.getElementById('start-date');
+        const today = new Date().toISOString().split('T')[0];
+        startDateInput.setAttribute('min', today);
+
+        // Enable/disable submit button based on terms checkbox
+        const termsCheckbox = document.getElementById('terms-checkbox');
+        const submitBtn = document.getElementById('submit-btn');
+        const termsError = document.getElementById('terms-error');
+
+        termsCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                submitBtn.disabled = false;
+                termsError.style.display = 'none';
+            } else {
+                submitBtn.disabled = true;
+            }
+        });
+
+        // Form submission - directly open WhatsApp
+        const bookingForm = document.getElementById('bookingForm');
+
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get form values
+            const selectedBike = document.querySelector('input[name="bike"]:checked');
+            
+            // Validate bike selection
+            if (!selectedBike) {
+                alert('Please select a bike model');
+                return;
+            }
+            
+            const bikeValue = selectedBike.value;
+            const [bikeName, bikePrice] = bikeValue.split('|');
+            const name = document.getElementById('name').value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+            const nationality = document.getElementById('nationality').value;
+            const age = document.getElementById('age').value;
+            const location = document.getElementById('location').value;
+            const phone = document.getElementById('phone').value;
+            const startDate = document.getElementById('start-date').value;
+            const startTime = document.getElementById('start-time').value;
+            const rentalDays = document.getElementById('rental-days').value;
+            const helmets = document.getElementById('helmets').value;
+
+            // Calculate total price
+            const totalPrice = parseInt(bikePrice) * parseInt(rentalDays);
+
+            // Format date
+            const formattedDate = new Date(startDate).toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Generate message
+            const message = `MOTORBIKE RENTAL BOOKING
+
+CUSTOMER DETAILS
+Name: ${name}
+Gender: ${gender}
+Nationality: ${nationality}
+Age: ${age}
+Accommodation: ${location}
+Contact: ${phone}
+
+BIKE SELECTION
+Model: ${bikeName}
+Rate: ₱${bikePrice}/day
+
+RENTAL PERIOD
+Start Date: ${formattedDate}
+Start Time: ${startTime}
+Duration: ${rentalDays} day(s)
+Helmets: ${helmets}
+
+TOTAL AMOUNT
+₱${totalPrice.toLocaleString()}
+
+REMINDER: Please bring a valid Government ID (NOT passport or driver's license)
+
+---
+Please confirm this booking. Thank you!`;
+
+            // Open WhatsApp directly
+            const whatsappNumber = '639073527234';
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank');
+        });
+    </script>
+</body>
+</html>
