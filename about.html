@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Bobby's Motorbike Rental | Bantayan Island</title>
+    <meta name="description" content="Learn about Bobby's Motorbike Rental, owned by Barangay Captain Rogelito G. Cabrera. Trusted motorbike rentals in Santa Fe, Bantayan Island with 15 scooters.">
+    <meta name="keywords" content="Bobby's Motorbike Rental, Rogelito Cabrera, Santa Fe motorbike rental, Bantayan Island scooters">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            max-height: 50px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #f4c430;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f4c430 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .page-header p {
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(244, 196, 48, 0.1);
+        }
+
+        .content-section h2 {
+            color: #f4c430;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .content-section h2 svg {
+            width: 32px;
+            height: 32px;
+            fill: #f4c430;
+        }
+
+        .content-section p {
+            color: #cccccc;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .content-section ul {
+            color: #cccccc;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Owner Highlight */
+        .owner-highlight {
+            background: rgba(244, 196, 48, 0.1);
+            border-left: 4px solid #f4c430;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 10px;
+        }
+
+        .owner-highlight h3 {
+            color: #f4c430;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .owner-highlight p {
+            color: #ffffff;
+            font-size: 1.1rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #f4c430;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(244, 196, 48, 0.2);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #f4c430;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #333;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .content-section {
+                padding: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="BMR.png" alt="Bobby's Motorbike Rental Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>About Bobby's Motorbike Rental</h1>
+            <p>Your Trusted Partner for Island Adventures</p>
+        </div>
+
+        <!-- Our Story -->
+        <div class="content-section">
+            <h2>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                Our Story
+            </h2>
+            <p>
+                Bobby's Motorbike Rental was founded with a simple mission: to provide visitors and locals alike with reliable, affordable, and safe transportation to explore the beautiful Bantayan Island. What started as a small venture has grown into one of the most trusted motorbike rental services in Santa Fe.
+            </p>
+            <p>
+                Located in the heart of Talisay, Santa Fe, we pride ourselves on offering well-maintained scooters and exceptional customer service. Whether you're a tourist looking to discover hidden beaches or a local needing convenient transportation, we're here to help you navigate Bantayan Island with ease and confidence.
+            </p>
+        </div>
+
+        <!-- Meet the Owner -->
+        <div class="content-section">
+            <h2>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                Meet the Owner
+            </h2>
+            <div class="owner-highlight">
+                <h3>Rogelito G. Cabrera</h3>
+                <p><strong>Owner & Barangay Captain of Talisay</strong></p>
+                <p style="margin-top: 1rem;">
+                    Rogelito G. Cabrera is not only the proud owner of Bobby's Motorbike Rental but also the dedicated Barangay Captain of Talisay, Santa Fe, Cebu. His deep commitment to serving the community extends beyond his public service role into his business, where he ensures every customer receives honest, reliable, and trustworthy service.
+                </p>
+                <p>
+                    With years of experience in both community leadership and the tourism industry, Rogelito understands what visitors need to have a safe and memorable experience exploring Bantayan Island. His reputation as a community leader guarantees that you're dealing with a business built on integrity and trust.
+                </p>
+            </div>
+        </div>
+
+        <!-- Our Fleet -->
+        <div class="content-section">
+            <h2>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17.5 14c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM6.5 14C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5S8.43 14 6.5 14zm0 5c-.83 0-1.5-.67-1.5-1.5S5.67 16 6.5 16s1.5.67 1.5 1.5S7.33 19 6.5 19z"/>
+                </svg>
+                Our Fleet
+            </h2>
+            <p>
+                We maintain a fleet of <strong>15 premium scooters</strong>, all regularly serviced and safety-checked to ensure your riding experience is smooth and worry-free. Our collection includes popular models perfect for island exploration:
+            </p>
+            <ul>
+                <li><strong>Honda Click 125</strong> - Reliable, fuel-efficient, and perfect for beginners</li>
+                <li><strong>Yamaha Mio Fazzio</strong> - Comfortable and stylish for longer rides</li>
+            </ul>
+            <p style="margin-top: 1rem;">
+                Every rental includes a complimentary helmet and 24/7 roadside assistance for your peace of mind.
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Scooters Available</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Well-Maintained</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label">Support Available</div>
+            </div>
+        </div>
+
+        <!-- Why Choose Us -->
+        <div class="content-section">
+            <h2>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                </svg>
+                Why Choose Bobby's Motorbike Rental?
+            </h2>
+            <ul>
+                <li><strong>Community Trust:</strong> Owned by the respected Barangay Captain of Talisay</li>
+                <li><strong>Local Expertise:</strong> We know every corner of Bantayan Island and can recommend the best routes</li>
+                <li><strong>Premium Fleet:</strong> 15 well-maintained scooters ready for your adventure</li>
+                <li><strong>Competitive Rates:</strong> Fair pricing starting at ₱250/day</li>
+                <li><strong>Safety First:</strong> All bikes are regularly inspected and serviced</li>
+                <li><strong>Convenient Location:</strong> Located in Talisay, Santa Fe - easy to find and access</li>
+                <li><strong>Flexible Rentals:</strong> Daily, weekly, or monthly rental options available</li>
+                <li><strong>Complete Service:</strong> Free helmets and 24/7 roadside assistance included</li>
+            </ul>
+        </div>
+
+        <!-- Our Location -->
+        <div class="content-section">
+            <h2>
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                Visit Us
+            </h2>
+            <p>
+                <strong>Bobby's Motorbike Rental</strong><br>
+                Barangay Talisay, Santa Fe<br>
+                Bantayan Island, Cebu, Philippines
+            </p>
+            <p style="margin-top: 1rem;">
+                <strong>Operating Hours:</strong> 6:00 AM - 9:00 PM Daily
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Bobby's Motorbike Rental. All rights reserved.</p>
+        <p>Owned and operated by Rogelito G. Cabrera, Barangay Captain of Talisay, Santa Fe</p>
+        <p style="margin-top: 1rem;">
+            <a href="index.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Home</a>
+            <a href="privacy-policy.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Privacy Policy</a>
+            <a href="terms.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Terms & Conditions</a>
+            <a href="contact.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Contact</a>
+        </p>
+    </footer>
+</body>
+</html>
