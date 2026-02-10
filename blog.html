@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Travel Guides & Tips | Bobby's Motorbike Rental Bantayan Island</title>
+    <meta name="description" content="Read our travel guides, safety tips, and local recommendations for exploring Bantayan Island by motorbike. Expert advice from Bobby's Rental.">
+    <meta name="keywords" content="Bantayan Island blog, travel guide Bantayan, scooter safety tips, Bantayan tourist guide, motorbike rental blog Philippines">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+        }
+
+        .logo img {
+            max-height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #f4c430;
+        }
+
+        .nav-links .book-btn {
+            background: linear-gradient(135deg, #f4c430 0%, #ffd700 100%);
+            color: #000000;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f4c430 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .page-header p {
+            color: #888;
+            font-size: 1.2rem;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #333;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            border-color: #f4c430;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(244, 196, 48, 0.2);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid #333;
+        }
+
+        .blog-image svg {
+            width: 80px;
+            height: 80px;
+            fill: #f4c430;
+        }
+
+        .blog-content {
+            padding: 2rem;
+        }
+
+        .blog-category {
+            display: inline-block;
+            background: rgba(244, 196, 48, 0.1);
+            color: #f4c430;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .blog-title {
+            font-size: 1.5rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .blog-excerpt {
+            color: #cccccc;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #888;
+            font-size: 0.9rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+        }
+
+        .read-more {
+            color: #f4c430;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s;
+        }
+
+        .read-more:hover {
+            gap: 1rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #f4c430;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .cta-section h2 {
+            color: #f4c430;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #cccccc;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #f4c430 0%, #ffd700 100%);
+            color: #000000;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: #0a0a0a;
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #333;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem 2rem 1rem;
+                margin: 2rem auto;
+            }
+
+            .page-header {
+                margin-bottom: 2rem;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .blog-content {
+                padding: 1.5rem;
+            }
+
+            .blog-title {
+                font-size: 1.3rem;
+            }
+
+            .blog-excerpt {
+                font-size: 0.95rem;
+            }
+
+            .cta-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .cta-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta-section p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            header {
+                padding: 1rem 0;
+            }
+
+            .logo img {
+                max-height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .blog-content {
+                padding: 1rem;
+            }
+
+            .blog-title {
+                font-size: 1.2rem;
+            }
+
+            .cta-section {
+                padding: 1.5rem 1rem;
+            }
+
+            .cta-button {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="BMR.png" alt="Bobby's Motorbike Rental Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="booking.html" class="book-btn">Book Now</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Travel Guides & Tips</h1>
+            <p>Expert advice for exploring Bantayan Island safely and confidently</p>
+        </div>
+
+        <div class="blog-grid">
+            <!-- Blog Post - Things to Do -->
+            <a href="blog-things-to-do-bantayan.html" style="text-decoration: none;">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-category">Activity Guide</span>
+                        <h2 class="blog-title">Things to Do in Bantayan Island 2026: Complete Activity Guide</h2>
+                        <p class="blog-excerpt">
+                            Discover the best beaches, water sports, cultural spots, food, and hidden gems in Bantayan Island. Your complete guide to everything the island has to offer in 2026.
+                        </p>
+                        <div class="blog-meta">
+                            <span>15 min read</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Blog Post 1 - NEW -->
+            <a href="blog-how-to-get-to-bantayan.html" style="text-decoration: none;">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4s-8 .5-8 4v10zm3.5 1c-.83 0-1.5-.67-1.5-1.5S6.67 14 7.5 14s1.5.67 1.5 1.5S8.33 17 7.5 17zm9 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm1.5-6H6V6h12v5z"/>
+                        </svg>
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-category">Travel Guide</span>
+                        <h2 class="blog-title">How to Get to Bantayan Island from Cebu City</h2>
+                        <p class="blog-excerpt">
+                            Complete 2026 guide with ferry schedules, bus routes, travel costs, and insider tips. Learn the fastest and most convenient way to reach Bantayan Island from Cebu City.
+                        </p>
+                        <div class="blog-meta">
+                            <span>12 min read</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Blog Post 2 -->
+            <a href="blog-top-10-places-bantayan.html" style="text-decoration: none;">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-category">Travel Guide</span>
+                        <h2 class="blog-title">Top 10 Must-Visit Places in Bantayan Island 2026</h2>
+                        <p class="blog-excerpt">
+                            Discover the best beaches, attractions, and hidden gems in Bantayan Island. From Kota Beach's stunning sandbar to Madridejos Lighthouse, explore the complete guide to the island's top destinations.
+                        </p>
+                        <div class="blog-meta">
+                            <span>8 min read</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Blog Post 3 -->
+            <a href="blog-scooter-safety-tips.html" style="text-decoration: none;">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+                        </svg>
+                    </div>
+                    <div class="blog-content">
+                        <span class="blog-category">Safety Guide</span>
+                        <h2 class="blog-title">First Time Riding a Scooter? Essential Safety Tips</h2>
+                        <p class="blog-excerpt">
+                            Complete beginner's guide to riding a scooter safely on Bantayan Island. Learn riding techniques, Philippine traffic rules, safety gear essentials, and defensive riding strategies for first-timers.
+                        </p>
+                        <div class="blog-meta">
+                            <span>10 min read</span>
+                            <span class="read-more">Read More →</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2>Ready to Explore Bantayan Island?</h2>
+            <p>Rent a well-maintained scooter from Bobby's Motorbike Rental and experience the freedom to discover all these amazing places at your own pace.</p>
+            <a href="booking.html" class="cta-button">Book Your Scooter Now!</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Bobby's Motorbike Rental. All rights reserved.</p>
+        <p style="margin-top: 1.5rem;">
+            <a href="index.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Home</a>
+            <a href="about.html" style="color: #888; text-decoration: none; margin: 0 1rem;">About Us</a>
+            <a href="blog.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Blog</a>
+            <a href="faq.html" style="color: #888; text-decoration: none; margin: 0 1rem;">FAQ</a>
+            <a href="contact.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Contact</a>
+        </p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            <a href="privacy-policy.html" style="color: #666; text-decoration: none; margin: 0 0.75rem;">Privacy Policy</a>
+            <a href="terms.html" style="color: #666; text-decoration: none; margin: 0 0.75rem;">Terms & Conditions</a>
+        </p>
+    </footer>
+</body>
+</html>
