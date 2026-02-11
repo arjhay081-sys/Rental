@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Bobby's Motorbike Rental Bantayan Island</title>
+    <meta name="description" content="Frequently asked questions about renting motorbikes on Bantayan Island. Learn about rates, requirements, and booking process.">
+    <meta name="keywords" content="motorbike rental FAQ Bantayan, scooter rental questions, bike rental guide Philippines">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+            padding: 1.5rem 0;
+            border-bottom: 1px solid #333;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            text-decoration: none;
+        }
+
+        .logo img {
+            max-height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #f4c430;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f4c430 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .page-header p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+
+        .faq-category {
+            margin-bottom: 3rem;
+        }
+
+        .category-title {
+            color: #f4c430;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #333;
+        }
+
+        .faq-item {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: #f4c430;
+            box-shadow: 0 5px 20px rgba(244, 196, 48, 0.1);
+        }
+
+        .faq-question {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .faq-question::before {
+            content: "Q:";
+            color: #f4c430;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .faq-answer {
+            color: #cccccc;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            padding-left: 2rem;
+        }
+
+        .faq-answer strong {
+            color: #ffffff;
+        }
+
+        .faq-answer ul {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+
+        .faq-answer li {
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box {
+            background: rgba(244, 196, 48, 0.1);
+            border-left: 4px solid #f4c430;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .highlight-box p {
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .cta-section h2 {
+            color: #f4c430;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #cccccc;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #f4c430 0%, #ffd700 100%);
+            color: #000000;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background: #0a0a0a;
+            padding: 2rem 0;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #333;
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .faq-item {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .faq-question {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <img src="BMR.png" alt="Bobby's Motorbike Rental Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="booking.html">Book Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Frequently Asked Questions</h1>
+            <p>Everything you need to know about renting from Bobby's Motorbike Rental</p>
+        </div>
+
+        <!-- Booking & Rates -->
+        <div class="faq-category">
+            <h2 class="category-title">Booking & Rates</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I book a motorbike?</div>
+                <div class="faq-answer">
+                    <p>You can book in two ways:</p>
+                    <ul>
+                        <li><strong>Online:</strong> Fill out our <a href="booking.html" style="color: #f4c430;">booking form</a> which will send your details via WhatsApp</li>
+                        <li><strong>Walk-in:</strong> Visit our shop directly during operating hours (6:00 AM - 9:00 PM)</li>
+                    </ul>
+                    <p><strong>Important:</strong> We ONLY accept bookings through WhatsApp (+63 907 352 7234). We do not accept phone calls, SMS, or Facebook Messenger.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What are your rental rates?</div>
+                <div class="faq-answer">
+                    <p>Our competitive daily rates are:</p>
+                    <ul>
+                        <li><strong>Honda Click 125:</strong> ₱250 per day</li>
+                        <li><strong>Yamaha Mio Fazzio:</strong> ₱350 per day</li>
+                    </ul>
+                    <p>We also offer discounted rates for weekly and monthly rentals. Contact us via WhatsApp for special rates!</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is there a deposit required?</div>
+                <div class="faq-answer">
+                    <p>Payment is required in full upon bike collection. We accept cash payments in Philippine Pesos (₱) only. Deposit requirements may vary - please confirm via WhatsApp when booking.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What's included in the rental?</div>
+                <div class="faq-answer">
+                    <p>Every rental includes:</p>
+                    <ul>
+                        <li>Free helmet(s) - up to 2 per bike</li>
+                        <li>24/7 roadside assistance</li>
+                        <li>Basic maintenance and support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requirements -->
+        <div class="faq-category">
+            <h2 class="category-title">Requirements</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">What do I need to rent a motorbike?</div>
+                <div class="faq-answer">
+                    <p>To rent from us, you must provide:</p>
+                    <ul>
+                        <li><strong>Age:</strong> 18 years or older</li>
+                        <li><strong>Valid Government ID:</strong> Philippine government-issued ID (National ID, PhilHealth, TIN, Voter's ID, Postal ID) — <strong>your ID will be held by us for the entire duration of your rental</strong></li>
+                        <li><strong>Accommodation Details:</strong> Hotel/resort name and room number</li>
+                        <li><strong>Contact Number:</strong> Working phone number with WhatsApp</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <p><strong>Why do we hold your ID?</strong> We keep your government ID while the bike is in your possession. This is for your own safety — in the event of an accident, we can use your ID to properly identify you and assist you immediately. Your ID will be returned to you when you return the bike.</p>
+                    </div>
+                    <div class="highlight-box">
+                        <p><strong>IMPORTANT:</strong> We do NOT accept passports or driver's licenses as valid ID. Only Philippine government-issued IDs are accepted.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Do I need a driver's license?</div>
+                <div class="faq-answer">
+                    <p>A driver's license is recommended for safety and legal compliance, but we primarily require a valid Philippine government-issued ID — which we will <strong>hold for the duration of your rental</strong> and return when you bring back the bike. You must have proper riding experience and comply with all Philippine traffic laws while operating the motorbike.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can foreigners rent from you?</div>
+                <div class="faq-answer">
+                    <p>Yes! Foreigners are welcome to rent from us. Please note that we require a valid Philippine government-issued ID which we will hold during your rental period. If you do not have one, please contact us via WhatsApp before booking so we can discuss your options.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rental Details -->
+        <div class="faq-category">
+            <h2 class="category-title">Rental Details</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">What is the minimum rental period?</div>
+                <div class="faq-answer">
+                    <p>The minimum rental period is <strong>1 day (24 hours)</strong> from your pickup time. We also offer weekly and monthly rental options at discounted rates.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What are your operating hours?</div>
+                <div class="faq-answer">
+                    <p>We're open <strong>6:00 AM to 9:00 PM daily</strong>, 7 days a week. Bike pickups and returns must be done within these hours unless otherwise arranged.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I extend my rental?</div>
+                <div class="faq-answer">
+                    <p>Yes! You can extend your rental period by contacting us via WhatsApp <strong>before</strong> your original return time. Extensions are subject to bike availability and will be charged at the daily rate.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What if I return the bike late?</div>
+                <div class="faq-answer">
+                    <p>Late returns will be charged an additional day's rental fee. To avoid extra charges, please return the bike on time or arrange an extension in advance via WhatsApp.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Do I need to refuel before returning?</div>
+                <div class="faq-answer">
+                    <p>The motorbike is <strong>not provided with a full tank</strong>. Fuel is the renter's responsibility for the entire rental period. Please return the bike with at least the same fuel level as when you received it. Running out of fuel during your ride is your responsibility.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Safety & Support -->
+        <div class="faq-category">
+            <h2 class="category-title">Safety & Support</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">Are helmets provided?</div>
+                <div class="faq-answer">
+                    <p>Yes! Helmets are <strong>included free</strong> with every rental. We provide up to 2 helmets per motorbike. Wearing a helmet is mandatory by law in the Philippines.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What if the bike breaks down?</div>
+                <div class="faq-answer">
+                    <p>We offer <strong>24/7 roadside assistance</strong>. If you experience any mechanical issues, contact us immediately via WhatsApp at +63 907 352 7234. We will assist you promptly. Repairs due to normal wear and tear are covered by us, but damages due to misuse or accidents are the renter's responsibility.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What happens if I damage the bike?</div>
+                <div class="faq-answer">
+                    <p>You are responsible for any damage to the motorbike during your rental period. Repair costs will be assessed and charged to you. In case of accidents, you must:</p>
+                    <ul>
+                        <li>Report the incident immediately via WhatsApp</li>
+                        <li>File a police report if it involves third parties</li>
+                        <li>Not attempt unauthorized repairs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is insurance included?</div>
+                <div class="faq-answer">
+                    <p>Basic third-party liability insurance may be included (verify at time of booking). However, personal accident insurance is your responsibility. Insurance does not cover reckless driving, DUI, or violations of rental terms.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Location & Area -->
+        <div class="faq-category">
+            <h2 class="category-title">Location & Area</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">Where are you located?</div>
+                <div class="faq-answer">
+                    <p>We're located in <strong>Barangay Talisay, Santa Fe</strong>, Bantayan Island, Cebu, Philippines. We're easy to find and conveniently accessible from all major areas of the island. Check our <a href="contact.html" style="color: #f4c430;">Contact page</a> for the map and directions.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I take the bike off Bantayan Island?</div>
+                <div class="faq-answer">
+                    <p><strong>No.</strong> The motorbike must stay on Bantayan Island at all times. Taking the bike off the island is strictly prohibited and will result in penalties and termination of your rental agreement.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can you recommend places to visit?</div>
+                <div class="faq-answer">
+                    <p>Absolutely! As locals, we know Bantayan Island inside and out. When you pick up your bike, we'll be happy to recommend the best beaches, restaurants, viewpoints, and hidden gems. Some popular spots include:</p>
+                    <ul>
+                        <li>Virgin Island (Paradise Beach)</li>
+                        <li>Kota Beach</li>
+                        <li>Sugar Beach</li>
+                        <li>Bantayan Nature Park</li>
+                        <li>Ogtong Cave Resort</li>
+                        <li>Madridejos Lighthouse</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Policies -->
+        <div class="faq-category">
+            <h2 class="category-title">Policies</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">What is your cancellation policy?</div>
+                <div class="faq-answer">
+                    <p>Cancellations must be made via WhatsApp at least <strong>24 hours before</strong> your scheduled pickup time. No-shows will forfeit any deposit or advance payment. We reserve the right to cancel or refuse any reservation.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can someone else ride my rented bike?</div>
+                <div class="faq-answer">
+                    <p><strong>No.</strong> Only the registered renter (the person who provided the ID) is authorized to operate the motorbike. Allowing others to ride is a violation of the rental agreement and will void your insurance coverage.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I smoke or drink while riding?</div>
+                <div class="faq-answer">
+                    <p><strong>Absolutely not.</strong> Operating the motorbike while under the influence of alcohol or drugs is strictly prohibited, illegal, and extremely dangerous. Violators will have their rental terminated immediately without refund and may face legal consequences.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h2>Still Have Questions?</h2>
+            <p>Contact us via WhatsApp or visit our shop. We're here to help!</p>
+            <a href="https://wa.me/639073527234" class="cta-button" target="_blank">Chat on WhatsApp</a>
+            <p style="margin-top: 2rem; color: #888;">Or view our <a href="contact.html" style="color: #f4c430;">Contact page</a> for more information</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Bobby's Motorbike Rental. All rights reserved.</p>
+        <p>
+            <a href="index.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Home</a>
+            <a href="about.html" style="color: #888; text-decoration: none; margin: 0 1rem;">About Us</a>
+            <a href="privacy-policy.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Privacy Policy</a>
+            <a href="terms.html" style="color: #888; text-decoration: none; margin: 0 1rem;">Terms & Conditions</a>
+        </p>
+    </footer>
+</body>
+</html>
