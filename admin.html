@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard – Bobby's Motorbike Rental</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        :root{
+            --gold:#f4c430;--green:#25D366;--teal:#14b878;
+            --red:#ff6b6b;--orange:#fb923c;--blue:#60a5fa;
+            --bg:#06090f;--card:rgba(255,255,255,0.03);
+            --border:rgba(255,255,255,0.08);--text:#fff;--muted:#888;
+        }
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes spin{to{transform:rotate(360deg);}}
+        @keyframes shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
+        @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+        @keyframes slideIn{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+
+        /* ── TOP BAR ── */
+        .topbar{
+            background:rgba(6,9,15,0.9);backdrop-filter:blur(24px);
+            border-bottom:1px solid var(--border);
+            padding:0.85rem 1.5rem;
+            display:flex;align-items:center;justify-content:space-between;
+            position:sticky;top:0;z-index:100;
+        }
+        .topbar-left{display:flex;align-items:center;gap:0.75rem;}
+        .topbar img{height:36px;width:auto;border-radius:8px;}
+        .topbar-title{font-size:0.95rem;font-weight:800;color:var(--text);}
+        .topbar-title span{color:var(--gold);}
+        .topbar-right{display:flex;align-items:center;gap:0.75rem;}
+        .live-dot{width:8px;height:8px;background:#25D366;border-radius:50%;animation:pulse 2s infinite;}
+        .live-label{color:#25D366;font-size:0.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+        .btn-logout{background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);color:#ff6b6b;padding:0.4rem 0.9rem;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.4rem;}
+        .btn-logout:hover{background:rgba(255,107,107,0.2);}
+        .btn-logout svg{width:14px;height:14px;fill:#ff6b6b;}
+
+        /* ── MAIN LAYOUT ── */
+        .main{max-width:1200px;margin:0 auto;padding:1.5rem;}
+
+        /* ── STATS ── */
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem;}
+        .stat-card{
+            background:var(--card);border:1px solid var(--border);
+            border-radius:14px;padding:1.1rem 1.25rem;
+            display:flex;align-items:center;gap:1rem;
+            animation:fadeUp 0.4s ease both;
+        }
+        .stat-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+        .stat-icon svg{width:20px;height:20px;}
+        .stat-val{font-size:1.8rem;font-weight:900;line-height:1;}
+        .stat-label{color:var(--muted);font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;margin-top:2px;}
+
+        /* ── FILTERS ── */
+        .filters{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+        .filter-btn{
+            background:var(--card);border:1px solid var(--border);
+            color:var(--muted);padding:0.45rem 1rem;border-radius:20px;
+            font-size:0.8rem;font-weight:700;cursor:pointer;transition:all 0.2s;
+            display:flex;align-items:center;gap:0.4rem;
+        }
+        .filter-btn .count{
+            background:rgba(255,255,255,0.1);
+            padding:1px 6px;border-radius:10px;font-size:0.7rem;
+        }
+        .filter-btn:hover{border-color:rgba(244,196,48,0.3);color:var(--gold);}
+        .filter-btn.active{background:rgba(244,196,48,0.1);border-color:rgba(244,196,48,0.4);color:var(--gold);}
+        .filter-btn.active .count{background:rgba(244,196,48,0.2);}
+
+        /* ── BOOKING CARDS ── */
+        .bookings-grid{display:grid;gap:1rem;}
+        .booking-card{
+            background:var(--card);border:1px solid var(--border);
+            border-radius:16px;overflow:hidden;
+            animation:slideIn 0.3s ease both;
+            transition:border-color 0.2s;
+        }
+        .booking-card:hover{border-color:rgba(244,196,48,0.2);}
+        .booking-card.type-bike{border-left:3px solid var(--gold);}
+        .booking-card.type-tour{border-left:3px solid var(--teal);}
+        .booking-card.status-approved{border-left-color:var(--green);}
+        .booking-card.status-rejected{border-left-color:var(--red);}
+
+        .card-top{
+            padding:1rem 1.25rem;
+            display:flex;align-items:center;justify-content:space-between;
+            border-bottom:1px solid var(--border);
+            gap:0.75rem;flex-wrap:wrap;
+        }
+        .card-top-left{display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;}
+        .type-badge{
+            font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;
+            padding:3px 8px;border-radius:6px;
+        }
+        .type-badge.bike{background:rgba(244,196,48,0.12);color:var(--gold);border:1px solid rgba(244,196,48,0.3);}
+        .type-badge.tour{background:rgba(20,184,120,0.1);color:var(--teal);border:1px solid rgba(20,184,120,0.3);}
+        .booking-id{font-size:0.95rem;font-weight:800;color:var(--text);}
+        .status-badge{
+            font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;
+            padding:3px 10px;border-radius:20px;
+        }
+        .status-badge.pending{background:rgba(251,146,60,0.12);color:var(--orange);border:1px solid rgba(251,146,60,0.3);}
+        .status-badge.approved{background:rgba(37,211,102,0.1);color:var(--green);border:1px solid rgba(37,211,102,0.3);}
+        .status-badge.rejected{background:rgba(255,107,107,0.1);color:var(--red);border:1px solid rgba(255,107,107,0.3);}
+        .card-time{color:var(--muted);font-size:0.72rem;white-space:nowrap;}
+
+        .card-body{padding:1rem 1.25rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+        .card-field label{color:var(--muted);font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:2px;}
+        .card-field span{color:var(--text);font-size:0.88rem;font-weight:600;}
+        .card-field span.gold{color:var(--gold);}
+        .card-field span.teal{color:var(--teal);}
+
+        .card-actions{
+            padding:0.85rem 1.25rem;
+            border-top:1px solid var(--border);
+            display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;
+        }
+        .btn-approve{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.35);color:var(--green);padding:0.55rem 1.1rem;border-radius:8px;font-weight:700;font-size:0.82rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.4rem;}
+        .btn-approve:hover{background:rgba(37,211,102,0.22);}
+        .btn-approve svg{width:14px;height:14px;fill:var(--green);}
+        .btn-reject{background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);color:var(--red);padding:0.55rem 1.1rem;border-radius:8px;font-weight:700;font-size:0.82rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.4rem;}
+        .btn-reject:hover{background:rgba(255,107,107,0.2);}
+        .btn-reject svg{width:14px;height:14px;fill:var(--red);}
+        .btn-dl-response{background:rgba(244,196,48,0.1);border:1px solid rgba(244,196,48,0.3);color:var(--gold);padding:0.55rem 1.1rem;border-radius:8px;font-weight:700;font-size:0.82rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.4rem;margin-left:auto;}
+        .btn-dl-response:hover{background:rgba(244,196,48,0.2);}
+        .btn-dl-response svg{width:14px;height:14px;fill:var(--gold);}
+        .btn-delete{background:transparent;border:1px solid rgba(255,107,107,0.2);color:#555;padding:0.55rem 0.75rem;border-radius:8px;font-weight:700;font-size:0.82rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.4rem;margin-left:auto;}
+        .btn-delete:hover{background:rgba(255,107,107,0.1);border-color:rgba(255,107,107,0.4);color:var(--red);}
+        .btn-delete svg{width:14px;height:14px;fill:currentColor;}
+        .btn-delete:hover svg{fill:var(--red);}
+        .admin-note-display{color:var(--muted);font-size:0.78rem;font-style:italic;padding:0.4rem 0;flex:1;}
+
+        /* ── EMPTY / LOADING ── */
+        .empty-state{text-align:center;padding:4rem 2rem;color:var(--muted);}
+        .empty-state svg{width:48px;height:48px;fill:var(--muted);opacity:0.4;margin-bottom:1rem;}
+        .empty-state h3{font-size:1.1rem;margin-bottom:0.5rem;color:#666;}
+        .loading-state{text-align:center;padding:3rem;color:var(--muted);}
+        .loading-state svg{animation:spin 1s linear infinite;fill:var(--gold);}
+
+        /* ── ACTION MODAL ── */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:200;padding:1rem;}
+        .modal-overlay.show{display:flex;}
+        .modal-box{background:#0d1117;border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:480px;width:100%;position:relative;animation:fadeUp 0.3s ease;}
+        .modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:20px 20px 0 0;}
+        .modal-box.approve::before{background:linear-gradient(90deg,transparent,rgba(37,211,102,0.7),transparent);}
+        .modal-box.reject::before{background:linear-gradient(90deg,transparent,rgba(255,107,107,0.7),transparent);}
+        .modal-box h3{font-size:1.15rem;font-weight:800;margin-bottom:0.4rem;}
+        .modal-box h3.green{color:var(--green);}
+        .modal-box h3.red{color:var(--red);}
+        .modal-box p{color:var(--muted);font-size:0.85rem;margin-bottom:1.25rem;}
+        .modal-box textarea{
+            width:100%;background:rgba(255,255,255,0.05);border:1px solid var(--border);
+            border-radius:10px;padding:0.85rem;color:var(--text);font-size:0.88rem;
+            resize:vertical;min-height:90px;outline:none;transition:all 0.2s;
+            font-family:inherit;
+        }
+        .modal-box textarea:focus{border-color:rgba(244,196,48,0.4);box-shadow:0 0 0 3px rgba(244,196,48,0.08);}
+        .modal-box textarea::placeholder{color:#444;}
+        .modal-actions{display:flex;gap:0.75rem;margin-top:1.25rem;}
+        .btn-confirm-approve{flex:1;background:linear-gradient(135deg,#25D366,#1ebe57);color:#fff;border:none;padding:0.85rem;border-radius:10px;font-weight:800;cursor:pointer;font-size:0.95rem;transition:all 0.2s;}
+        .btn-confirm-approve:hover{opacity:0.9;transform:translateY(-1px);}
+        .btn-confirm-reject{flex:1;background:linear-gradient(135deg,#ff6b6b,#e05555);color:#fff;border:none;padding:0.85rem;border-radius:10px;font-weight:800;cursor:pointer;font-size:0.95rem;transition:all 0.2s;}
+        .btn-confirm-reject:hover{opacity:0.9;transform:translateY(-1px);}
+        .btn-modal-cancel{background:transparent;border:1px solid var(--border);color:var(--muted);padding:0.85rem 1.25rem;border-radius:10px;cursor:pointer;font-size:0.9rem;transition:all 0.2s;}
+        .btn-modal-cancel:hover{border-color:rgba(255,255,255,0.2);color:var(--text);}
+
+        /* ── RESPONSE PNG CARD (hidden, captured by html2canvas) ── */
+        #response-card-wrap{position:fixed;left:-9999px;top:0;z-index:-1;width:680px;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+
+        /* ── SORT BAR ── */
+        .sort-bar{display:flex;align-items:center;gap:0.6rem;margin-bottom:1.25rem;flex-wrap:wrap;}
+        .sort-label{color:var(--muted);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;}
+        .sort-btn{background:var(--card);border:1px solid var(--border);color:var(--muted);padding:0.4rem 0.85rem;border-radius:8px;font-size:0.8rem;font-weight:700;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.35rem;}
+        .sort-btn:hover{border-color:rgba(244,196,48,0.3);color:var(--gold);}
+        .sort-btn.active{background:rgba(244,196,48,0.08);border-color:rgba(244,196,48,0.35);color:var(--gold);}
+        .sort-btn svg{width:12px;height:12px;fill:currentColor;transition:transform 0.2s;}
+        .sort-btn.asc svg{transform:rotate(180deg);}
+
+        /* ── EXPAND TOGGLE ── */
+        .btn-expand{background:transparent;border:none;color:var(--muted);font-size:0.78rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:0.3rem;padding:0.2rem 0;transition:color 0.2s;margin-left:auto;}
+        .btn-expand:hover{color:var(--gold);}
+        .btn-expand svg{width:14px;height:14px;fill:currentColor;transition:transform 0.25s;}
+        .btn-expand.open svg{transform:rotate(180deg);}
+        .card-extra{
+            max-height:0;overflow:hidden;
+            transition:max-height 0.35s ease, padding 0.2s ease;
+            border-top:0px solid var(--border);
+            padding:0 1.25rem;
+        }
+        .card-extra.open{
+            max-height:300px;
+            border-top:1px solid var(--border);
+            padding:1rem 1.25rem;
+        }
+        .card-extra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;}
+
+        /* ── NOTIFICATION BELL ── */
+        .notif-btn{background:transparent;border:1px solid var(--border);color:var(--muted);width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;position:relative;}
+        .notif-btn:hover{border-color:rgba(244,196,48,0.3);color:var(--gold);}
+        .notif-btn.on{border-color:rgba(244,196,48,0.4);color:var(--gold);background:rgba(244,196,48,0.08);}
+        .notif-btn svg{width:16px;height:16px;fill:currentColor;}
+        @keyframes bellRing{0%,100%{transform:rotate(0);}10%,30%{transform:rotate(-15deg);}20%,40%{transform:rotate(15deg);}50%{transform:rotate(0);}}
+        .notif-btn.ring svg{animation:bellRing 0.6s ease;}
+
+        /* ── RESPONSIVE ── */
+        @media(max-width:768px){
+            .stats-grid{grid-template-columns:repeat(2,1fr);}
+            .card-body{grid-template-columns:1fr 1fr;}
+            .main{padding:1rem;}
+        }
+        @media(max-width:480px){
+            .stats-grid{grid-template-columns:1fr 1fr;}
+            .card-body{grid-template-columns:1fr;}
+            .topbar-title{display:none;}
+        }
+    </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+    <div class="topbar-left">
+        <img src="BMR.png" alt="BMR">
+        <div class="topbar-title">Bobby's Motorbike Rental <span>· Admin</span></div>
+    </div>
+    <div class="topbar-right">
+        <div class="live-dot"></div>
+        <span class="live-label">Live</span>
+        <button class="notif-btn" id="notif-btn" title="Notification sound: OFF" onclick="toggleNotif()">
+            <svg viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        </button>
+        <button class="btn-logout" onclick="doLogout()">
+            <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+            Logout
+        </button>
+    </div>
+</div>
+
+<div class="main">
+
+    <!-- STATS -->
+    <div class="stats-grid">
+        <div class="stat-card" style="animation-delay:0.05s">
+            <div class="stat-icon" style="background:rgba(244,196,48,0.1);border:1px solid rgba(244,196,48,0.2);">
+                <svg viewBox="0 0 24 24" style="fill:#f4c430;"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+            </div>
+            <div><div class="stat-val" id="stat-total">–</div><div class="stat-label">Total</div></div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.1s">
+            <div class="stat-icon" style="background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.2);">
+                <svg viewBox="0 0 24 24" style="fill:#fb923c;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+            </div>
+            <div><div class="stat-val" id="stat-pending">–</div><div class="stat-label">Pending</div></div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.15s">
+            <div class="stat-icon" style="background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.2);">
+                <svg viewBox="0 0 24 24" style="fill:#25D366;"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+            </div>
+            <div><div class="stat-val" id="stat-approved">–</div><div class="stat-label">Approved</div></div>
+        </div>
+        <div class="stat-card" style="animation-delay:0.2s">
+            <div class="stat-icon" style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.2);">
+                <svg viewBox="0 0 24 24" style="fill:#ff6b6b;"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>
+            </div>
+            <div><div class="stat-val" id="stat-rejected">–</div><div class="stat-label">Rejected</div></div>
+        </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+        <button class="filter-btn active" onclick="setFilter('all',this)">All <span class="count" id="fc-all">0</span></button>
+        <button class="filter-btn" onclick="setFilter('pending',this)">Pending <span class="count" id="fc-pending">0</span></button>
+        <button class="filter-btn" onclick="setFilter('approved',this)">Approved <span class="count" id="fc-approved">0</span></button>
+        <button class="filter-btn" onclick="setFilter('rejected',this)">Rejected <span class="count" id="fc-rejected">0</span></button>
+        <button class="filter-btn" onclick="setFilter('bike',this)">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><path d="M17.5 14c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zM6.5 14C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5S8.43 14 6.5 14zM8.5 9.5L11 12h4l3-4.5"/></svg>
+            Bike <span class="count" id="fc-bike">0</span>
+        </button>
+        <button class="filter-btn" onclick="setFilter('tour',this)">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor;"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7"/></svg>
+            Tour <span class="count" id="fc-tour">0</span>
+        </button>
+    </div>
+
+    <!-- SORT BAR -->
+    <div class="sort-bar">
+        <span class="sort-label">Sort by:</span>
+        <button class="sort-btn active" id="sort-submitted" onclick="setSort('submitted',this)">
+            <svg viewBox="0 0 24 24"><path d="M3 18h6v-2H3v2zm0-5h12v-2H3v2zm0-7v2h18V6H3z"/></svg>
+            Submitted
+        </button>
+        <button class="sort-btn" id="sort-rentaldate" onclick="setSort('rentaldate',this)">
+            <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+            Rental / Tour Date
+        </button>
+        <button class="sort-btn" id="sort-dir" onclick="toggleSortDir()" title="Toggle direction">
+            <svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>
+            Newest first
+        </button>
+    </div>
+
+    <!-- BOOKINGS LIST -->
+    <div class="bookings-grid" id="bookings-list">
+        <div class="loading-state">
+            <svg viewBox="0 0 24 24" style="width:32px;height:32px;display:block;margin:0 auto 0.75rem;">
+                <path d="M12 4V2C6.48 2 2 6.48 2 12h2c0-4.41 3.59-8 8-8z"/>
+            </svg>
+            Loading bookings...
+        </div>
+    </div>
+</div>
+
+<!-- ACTION MODAL -->
+<div class="modal-overlay" id="action-modal">
+    <div class="modal-box" id="action-modal-box">
+        <h3 id="action-modal-title"></h3>
+        <p id="action-modal-desc"></p>
+        <textarea id="action-notes" placeholder="Add a note (optional)..."></textarea>
+        <div class="modal-actions">
+            <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+            <button id="action-confirm-btn"></button>
+        </div>
+    </div>
+</div>
+
+<!-- HIDDEN RESPONSE CARD -->
+<div id="response-card-wrap">
+    <div id="response-card"></div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+// ── Firebase Init ──
+firebase.initializeApp({
+    apiKey:"AIzaSyCG1hOzMXJDQCcj-_OlmYBu9mV8xdN15bI",
+    authDomain:"bobbys-motorbike-rental.firebaseapp.com",
+    projectId:"bobbys-motorbike-rental",
+    storageBucket:"bobbys-motorbike-rental.firebasestorage.app",
+    messagingSenderId:"22999361272",
+    appId:"1:22999361272:web:3f2abf58faf2e8f8e3fd0d"
+});
+var auth = firebase.auth();
+var db   = firebase.firestore();
+
+// ── Auth Guard ──
+auth.onAuthStateChanged(function(user){
+    if (!user) { window.location.href = 'admin-login.html'; return; }
+    startListeners();
+});
+
+function doLogout(){
+    auth.signOut().then(function(){ window.location.href = 'admin-login.html'; });
+}
+
+// ── State ──
+var allBookings   = [];
+var currentFilter = 'all';
+var currentSort   = 'submitted';
+var sortAsc       = false;
+var pendingAction = null; // {docId, type, action}
+var notifOn       = false;
+var prevIds       = null; // track new arrivals for sound
+
+// ── Check for new bookings & play sound ──
+function checkForNewBookings(){
+    var currentIds = allBookings.map(function(b){ return b._id; }).sort().join(',');
+    if (prevIds === null){
+        prevIds = currentIds; // first load, just record IDs
+        return;
+    }
+    if (currentIds !== prevIds && notifOn){
+        var oldSet = prevIds.split(',');
+        var newOnes = allBookings.filter(function(b){ return !oldSet.includes(b._id); });
+        if (newOnes.length > 0) playNotif(false);
+    }
+    prevIds = currentIds;
+}
+
+// ── Show listener error to user ──
+function showListenerError(err){
+    var code = err ? err.code : '';
+    var msg  = 'Could not load bookings.';
+    if (code === 'permission-denied') {
+        msg = '🔒 Permission denied — update your Firestore Security Rules to allow reads for authenticated users.';
+    } else if (code === 'failed-precondition' || code === 'unavailable') {
+        msg = '⚠️ Firestore index missing or service unavailable. Check Firebase Console.';
+    } else if (err) {
+        msg = '❌ Error: ' + err.message;
+    }
+    document.getElementById('bookings-list').innerHTML =
+        '<div class="empty-state" style="padding:3rem 1.5rem;">' +
+        '<svg viewBox="0 0 24 24" style="width:48px;height:48px;fill:#ff6b6b;opacity:0.7;display:block;margin:0 auto 1rem;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>' +
+        '<h3 style="color:#ff6b6b;margin-bottom:0.75rem;">Connection Error</h3>' +
+        '<p style="color:#888;font-size:0.85rem;max-width:380px;margin:0 auto;line-height:1.6;">' + msg + '</p>' +
+        '<p style="color:#555;font-size:0.78rem;margin-top:1.25rem;">Go to <strong style="color:#f4c430;">Firebase Console → Firestore → Rules</strong> and make sure reads are allowed for signed-in users, then refresh this page.</p>' +
+        '</div>';
+}
+
+// ── Auto-delete expired bookings (10-day TTL) ──
+function cleanupExpired(){
+    var now = new Date();
+    ['bookings','tour_bookings'].forEach(function(col){
+        db.collection(col).get()
+            .then(function(snap){
+                if (snap.empty) return;
+                var batch = db.batch();
+                var count = 0;
+                snap.docs.forEach(function(d){
+                    var data = d.data();
+                    if (data.expiresAt && data.expiresAt.toDate && data.expiresAt.toDate() <= now){
+                        batch.delete(d.ref);
+                        count++;
+                    }
+                });
+                if (count > 0){
+                    batch.commit().then(function(){
+                        console.log('Cleaned up ' + count + ' expired docs from ' + col);
+                    });
+                }
+            }).catch(function(e){ console.warn('Cleanup skipped ('+col+'):', e.code || e.message); });
+    });
+}
+
+// ── Real-time Listeners ──
+function startListeners(){
+    cleanupExpired();
+
+    // Timeout fallback — if nothing loads in 10s, show error
+    var loadTimeout = setTimeout(function(){
+        if (allBookings.length === 0){
+            showListenerError({code:'timeout', message:'Request timed out. Check your Firestore Rules and internet connection.'});
+        }
+    }, 10000);
+
+    var bikeReady = false;
+    var tourReady = false;
+    function clearTimeout_ifBothReady(){
+        if (bikeReady && tourReady) clearTimeout(loadTimeout);
+    }
+
+    // NO orderBy — avoids index requirement. Sort client-side.
+    db.collection('bookings')
+        .onSnapshot(function(snap){
+            bikeReady = true;
+            clearTimeout_ifBothReady();
+            var bikeBookings = snap.docs.map(function(d){
+                return Object.assign({}, d.data(), {_id: d.id, _type: 'bike'});
+            });
+            var tourOnes = allBookings.filter(function(b){ return b._type === 'tour'; });
+            allBookings = bikeBookings.concat(tourOnes);
+            checkForNewBookings();
+            renderAll();
+        }, function(err){
+            bikeReady = true;
+            clearTimeout(loadTimeout);
+            console.error('Bike listener error:', err);
+            showListenerError(err);
+        });
+
+    db.collection('tour_bookings')
+        .onSnapshot(function(snap){
+            tourReady = true;
+            clearTimeout_ifBothReady();
+            var tourBookings = snap.docs.map(function(d){
+                return Object.assign({}, d.data(), {_id: d.id, _type: 'tour'});
+            });
+            var bikeOnes = allBookings.filter(function(b){ return b._type === 'bike'; });
+            allBookings = bikeOnes.concat(tourBookings);
+            checkForNewBookings();
+            renderAll();
+        }, function(err){
+            tourReady = true;
+            clearTimeout(loadTimeout);
+            console.error('Tour listener error:', err);
+            showListenerError(err);
+        });
+}
+
+// ── Filter ──
+function setFilter(f, btn){
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    renderAll();
+}
+
+// ── Render ──
+function renderAll(){
+    updateStats();
+    var filtered = getSortedFiltered();
+    var list = document.getElementById('bookings-list');
+
+    if (!filtered.length){
+        list.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg><h3>No bookings found</h3><p>Bookings will appear here in real-time</p></div>';
+        return;
+    }
+
+    list.innerHTML = filtered.map(function(b){ return buildCard(b); }).join('');
+}
+
+function getFiltered(){
+    return allBookings.filter(function(b){
+        if (currentFilter === 'all')      return true;
+        if (currentFilter === 'bike')     return b._type === 'bike';
+        if (currentFilter === 'tour')     return b._type === 'tour';
+        if (currentFilter === 'pending')  return b.status === 'pending';
+        if (currentFilter === 'approved') return b.status === 'approved';
+        if (currentFilter === 'rejected') return b.status === 'rejected';
+        return true;
+    });
+}
+
+function updateStats(){
+    var total    = allBookings.length;
+    var pending  = allBookings.filter(function(b){ return b.status==='pending'; }).length;
+    var approved = allBookings.filter(function(b){ return b.status==='approved'; }).length;
+    var rejected = allBookings.filter(function(b){ return b.status==='rejected'; }).length;
+    var bikes    = allBookings.filter(function(b){ return b._type==='bike'; }).length;
+    var tours    = allBookings.filter(function(b){ return b._type==='tour'; }).length;
+
+    document.getElementById('stat-total').textContent    = total;
+    document.getElementById('stat-pending').textContent  = pending;
+    document.getElementById('stat-approved').textContent = approved;
+    document.getElementById('stat-rejected').textContent = rejected;
+
+    document.getElementById('fc-all').textContent      = total;
+    document.getElementById('fc-pending').textContent  = pending;
+    document.getElementById('fc-approved').textContent = approved;
+    document.getElementById('fc-rejected').textContent = rejected;
+    document.getElementById('fc-bike').textContent     = bikes;
+    document.getElementById('fc-tour').textContent     = tours;
+}
+
+function timeAgo(ts){
+    if (!ts) return '–';
+    var ms = Date.now() - ts.toMillis();
+    var mins = Math.floor(ms/60000);
+    if (mins < 1) return 'Just now';
+    if (mins < 60) return mins + 'm ago';
+    var hrs = Math.floor(mins/60);
+    if (hrs < 24) return hrs + 'h ago';
+    return Math.floor(hrs/24) + 'd ago';
+}
+
+function buildCard(b){
+    var isBike = b._type === 'bike';
+    var typeLabel = isBike ? 'Bike' : 'Tour';
+    var statusClass = b.status || 'pending';
+    var statusLabel = statusClass.charAt(0).toUpperCase() + statusClass.slice(1);
+
+    var detailsHtml = '';
+    if (isBike){
+        detailsHtml = [
+            '<div class="card-field"><label>Customer</label><span>'+esc(b.name)+'</span></div>',
+            '<div class="card-field"><label>Bike</label><span class="gold">'+esc(b.bikeName)+'</span></div>',
+            '<div class="card-field"><label>Start Date</label><span>'+esc(b.formattedDate||'–')+'</span></div>',
+            '<div class="card-field"><label>Duration</label><span>'+esc(b.rentalDays)+'d · '+esc(b.numBikes)+'x bike</span></div>',
+            '<div class="card-field"><label>Total</label><span class="gold">₱'+Number(b.totalPrice||0).toLocaleString()+'</span></div>',
+            '<div class="card-field"><label>Contact</label><span>'+esc(b.phone)+'</span></div>'
+        ].join('');
+    } else {
+        detailsHtml = [
+            '<div class="card-field"><label>Customer</label><span>'+esc(b.name)+'</span></div>',
+            '<div class="card-field"><label>Tour Date</label><span class="teal">'+esc(b.formattedDate||'–')+'</span></div>',
+            '<div class="card-field"><label>Start Time</label><span>'+esc(b.startTime||'–')+'</span></div>',
+            '<div class="card-field"><label>Total</label><span class="teal">₱840</span></div>',
+            '<div class="card-field"><label>Contact</label><span>'+esc(b.phone)+'</span></div>',
+            '<div class="card-field"><label>Requests</label><span>'+esc(b.stops||'None')+'</span></div>'
+        ].join('');
+    }
+
+    var actionsHtml = '';
+    if (b.status === 'pending'){
+        actionsHtml = [
+            '<button class="btn-approve" onclick="openModal(\''+b._id+'\',\''+b._type+'\',\'approve\')">',
+            '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Approve</button>',
+            '<button class="btn-reject" onclick="openModal(\''+b._id+'\',\''+b._type+'\',\'reject\')">',
+            '<svg viewBox="0 0 24 24"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>Reject</button>',
+            '<button class="btn-delete" title="Delete booking" onclick="deleteBooking(\''+b._id+'\',\''+b._type+'\')">',
+            '<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>'
+        ].join('');
+    } else {
+        var noteHtml = b.adminNotes ? '<span class="admin-note-display">"'+esc(b.adminNotes)+'"</span>' : '';
+        actionsHtml = noteHtml + [
+            '<button class="btn-dl-response" onclick="downloadResponse(\''+b._id+'\',\''+b._type+'\')">',
+            '<svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>',
+            'Download '+statusLabel+' Card</button>',
+            '<button class="btn-delete" title="Delete booking" onclick="deleteBooking(\''+b._id+'\',\''+b._type+'\')">',
+            '<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>'
+        ].join('');
+    }
+
+    // Extra details (hidden by default)
+    var extraHtml = '';
+    if (isBike){
+        extraHtml = [
+            '<div class="card-extra-grid">',
+            '<div class="card-field"><label>Gender</label><span>'+esc(b.gender||'–')+'</span></div>',
+            '<div class="card-field"><label>Nationality</label><span>'+esc(b.nationality||'–')+'</span></div>',
+            '<div class="card-field"><label>Age</label><span>'+esc(b.age||'–')+'</span></div>',
+            '<div class="card-field"><label>Accommodation</label><span>'+esc(b.location||'–')+'</span></div>',
+            '<div class="card-field"><label>Helmets</label><span>'+esc(b.helmets||'–')+'</span></div>',
+            '<div class="card-field"><label>Deposit</label><span class="gold">₱'+Number(b.depositAmount||b.bikePrice||0).toLocaleString()+'</span></div>',
+            '</div>'
+        ].join('');
+    } else {
+        extraHtml = [
+            '<div class="card-extra-grid">',
+            '<div class="card-field"><label>Gender</label><span>'+esc(b.gender||'–')+'</span></div>',
+            '<div class="card-field"><label>Nationality</label><span>'+esc(b.nationality||'–')+'</span></div>',
+            '<div class="card-field"><label>Age</label><span>'+esc(b.age||'–')+'</span></div>',
+            '<div class="card-field"><label>Accommodation</label><span>'+esc(b.location||'–')+'</span></div>',
+            '<div class="card-field"><label>Special Requests</label><span>'+esc(b.stops||'None')+'</span></div>',
+            '<div class="card-field"><label>Duration</label><span>8 Hours</span></div>',
+            '</div>'
+        ].join('');
+    }
+
+    var uid = 'card-'+b._id;
+
+    return [
+        '<div class="booking-card type-'+b._type+' status-'+statusClass+'" id="'+uid+'">',
+        '  <div class="card-top">',
+        '    <div class="card-top-left">',
+        '      <span class="type-badge '+b._type+'">'+typeLabel+'</span>',
+        '      <span class="booking-id">'+esc(b.bookingID)+'</span>',
+        '      <span class="status-badge '+statusClass+'">'+statusLabel+'</span>',
+        '    </div>',
+        '    <div style="display:flex;align-items:center;gap:0.75rem;">',
+        '      <span class="card-time">'+timeAgo(b.createdAt)+'</span>',
+        '      <button class="btn-expand" id="exp-'+b._id+'" onclick="toggleExpand(''+b._id+'')" title="Show more details">',
+        '        <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>More',
+        '      </button>',
+        '    </div>',
+        '  </div>',
+        '  <div class="card-body">'+detailsHtml+'</div>',
+        '  <div class="card-extra" id="extra-'+b._id+'">'+extraHtml+'</div>',
+        '  <div class="card-actions">'+actionsHtml+'</div>',
+        '</div>'
+    ].join('');
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── Expand / Collapse card details ──
+function toggleExpand(id){
+    var extra = document.getElementById('extra-'+id);
+    var btn   = document.getElementById('exp-'+id);
+    if (!extra) return;
+    var isOpen = extra.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    btn.innerHTML = isOpen
+        ? '<svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>Less'
+        : '<svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>More';
+}
+
+// ── Sort ──
+function setSort(mode, btn){
+    currentSort = mode;
+    document.querySelectorAll('.sort-btn:not(#sort-dir)').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    renderAll();
+}
+
+function toggleSortDir(){
+    sortAsc = !sortAsc;
+    var btn = document.getElementById('sort-dir');
+    btn.classList.toggle('asc', sortAsc);
+    btn.innerHTML = sortAsc
+        ? '<svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg> Oldest first'
+        : '<svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg> Newest first';
+    renderAll();
+}
+
+function getSortedFiltered(){
+    var list = getFiltered();
+    list.sort(function(a, b){
+        var aVal, bVal;
+        if (currentSort === 'rentaldate'){
+            // Use the start date string — stored as formattedDate or tourDate
+            aVal = a.startDate || a.tourDate || a.formattedDate || '';
+            bVal = b.startDate || b.tourDate || b.formattedDate || '';
+            // Try to parse as date
+            var aD = new Date(aVal); var bD = new Date(bVal);
+            aVal = isNaN(aD) ? 0 : aD.getTime();
+            bVal = isNaN(bD) ? 0 : bD.getTime();
+        } else {
+            aVal = a.createdAt ? a.createdAt.toMillis() : 0;
+            bVal = b.createdAt ? b.createdAt.toMillis() : 0;
+        }
+        return sortAsc ? aVal - bVal : bVal - aVal;
+    });
+    return list;
+}
+
+// ── Notification Sound ──
+function toggleNotif(){
+    notifOn = !notifOn;
+    var btn = document.getElementById('notif-btn');
+    btn.classList.toggle('on', notifOn);
+    btn.title = notifOn ? 'Notification sound: ON' : 'Notification sound: OFF';
+    if (notifOn) playNotif(true); // play once to confirm enabled
+}
+
+function playNotif(soft){
+    try {
+        var ctx = new (window.AudioContext || window.webkitAudioContext)();
+        var notes = soft ? [880] : [523, 659, 784];
+        var t = ctx.currentTime;
+        notes.forEach(function(freq, i){
+            var osc = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
+            osc.type = 'sine';
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0, t + i * 0.12);
+            gain.gain.linearRampToValueAtTime(soft ? 0.12 : 0.18, t + i * 0.12 + 0.04);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.12 + 0.35);
+            osc.start(t + i * 0.12);
+            osc.stop(t + i * 0.12 + 0.4);
+        });
+        // Ring the bell icon
+        var btn = document.getElementById('notif-btn');
+        btn.classList.add('ring');
+        setTimeout(function(){ btn.classList.remove('ring'); }, 700);
+    } catch(e){ console.warn('Audio error:', e); }
+}
+
+// ── Action Modal ──
+function openModal(docId, type, action){
+    pendingAction = {docId:docId, type:type, action:action};
+    var modal    = document.getElementById('action-modal');
+    var box      = document.getElementById('action-modal-box');
+    var title    = document.getElementById('action-modal-title');
+    var desc     = document.getElementById('action-modal-desc');
+    var confirmBtn = document.getElementById('action-confirm-btn');
+    var notes    = document.getElementById('action-notes');
+    notes.value  = '';
+
+    var b = allBookings.find(function(x){ return x._id === docId; });
+    var name = b ? b.name : 'Customer';
+
+    if (action === 'approve'){
+        box.className = 'modal-box approve';
+        title.className = 'green';
+        title.textContent = 'Approve Booking';
+        desc.textContent  = 'Confirm booking for ' + name + '. Add a message for the customer (optional).';
+        notes.placeholder = 'e.g. See you on the day! Please bring your ID.';
+        confirmBtn.className = 'btn-confirm-approve';
+        confirmBtn.textContent = '✓ Confirm Approval';
+        confirmBtn.onclick = function(){ confirmAction(); };
+    } else {
+        box.className = 'modal-box reject';
+        title.className = 'red';
+        title.textContent = 'Reject Booking';
+        desc.textContent  = 'Reject booking for ' + name + '. Please provide a reason for the customer.';
+        notes.placeholder = 'e.g. Sorry, the bike is not available on that date.';
+        confirmBtn.className = 'btn-confirm-reject';
+        confirmBtn.textContent = '✕ Confirm Rejection';
+        confirmBtn.onclick = function(){ confirmAction(); };
+    }
+
+    modal.classList.add('show');
+}
+
+function closeModal(){
+    document.getElementById('action-modal').classList.remove('show');
+    pendingAction = null;
+}
+
+document.getElementById('action-modal').addEventListener('click', function(e){
+    if (e.target === this) closeModal();
+});
+
+function confirmAction(){
+    if (!pendingAction) return;
+    var notes  = document.getElementById('action-notes').value.trim();
+    var col    = pendingAction.type === 'bike' ? 'bookings' : 'tour_bookings';
+    var newStatus = pendingAction.action === 'approve' ? 'approved' : 'rejected';
+
+    var confirmBtn = document.getElementById('action-confirm-btn');
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = 'Saving...';
+
+    db.collection(col).doc(pendingAction.docId).update({
+        status: newStatus,
+        adminNotes: notes,
+        processedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(){
+        closeModal();
+    }).catch(function(err){
+        console.error('Update error:', err);
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = 'Try Again';
+    });
+}
+
+// ── Delete Booking ──
+function deleteBooking(docId, type){
+    if (!confirm('Delete this booking? This cannot be undone.')) return;
+    var col = type === 'bike' ? 'bookings' : 'tour_bookings';
+    db.collection(col).doc(docId).delete()
+        .then(function(){
+            // Card will disappear automatically via onSnapshot
+        })
+        .catch(function(err){
+            console.error('Delete error:', err);
+            alert('Could not delete. Check your connection and try again.');
+        });
+}
+
+// ── Download Response PNG ──
+function downloadResponse(docId, type){
+    var b = allBookings.find(function(x){ return x._id === docId; });
+    if (!b) return;
+    buildResponseCard(b);
+    setTimeout(function(){
+        var card = document.getElementById('response-card');
+        html2canvas(card, {
+            backgroundColor: b.status === 'approved' ? '#071410' : '#100a0a',
+            scale: 2, useCORS: true, allowTaint: false, logging: false, width: 680
+        }).then(function(canvas){
+            var a = document.createElement('a');
+            a.href = canvas.toDataURL('image/png');
+            a.download = 'BMR-' + (b.status==='approved'?'Approved':'Rejected') + '-' + (b.bookingID||docId) + '.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        });
+    }, 150);
+}
+
+function buildResponseCard(b){
+    var isApproved = b.status === 'approved';
+    var isBike     = b._type  === 'bike';
+    var accent     = isApproved ? '#14b878' : '#ff6b6b';
+    var bgDark     = isApproved ? '#071410' : '#100a0a';
+    var bgMid      = isApproved ? '#0d1f18' : '#1a0c0c';
+    var statusText = isApproved ? 'CONFIRMED' : 'DECLINED';
+    var today      = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+    var noteText   = b.adminNotes || (isApproved ? 'Your booking has been confirmed! See you soon.' : 'We are unable to accommodate your request at this time.');
+
+    var detailRow = '';
+    if (isBike){
+        detailRow = [
+            row('Bike', b.bikeName),
+            row('Date', b.formattedDate),
+            row('Duration', b.rentalDays + ' day(s) · ' + b.numBikes + ' bike(s)'),
+            row('Total Amount', '&#8369;' + Number(b.totalPrice||0).toLocaleString()),
+        ].join('');
+    } else {
+        detailRow = [
+            row('Tour Date', b.formattedDate),
+            row('Start Time', b.startTime),
+            row('Duration', '8 Hours'),
+            row('Total Amount', '&#8369;840 flat rate'),
+        ].join('');
+    }
+
+    document.getElementById('response-card').innerHTML = [
+        '<div style="background:'+bgDark+';overflow:hidden;font-family:Segoe UI,Tahoma,Geneva,Verdana,sans-serif;">',
+        // Top stripe
+        '<div style="height:5px;background:linear-gradient(90deg,'+accent+',#f4c430,'+accent+');"></div>',
+        // Header
+        '<div style="padding:28px 32px 22px;background:linear-gradient(135deg,'+bgMid+' 0%,'+bgDark+' 100%);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">',
+        '  <div style="display:flex;align-items:center;gap:14px;">',
+        '    <div style="width:44px;height:44px;background:rgba(244,196,48,0.1);border:1px solid rgba(244,196,48,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;">',
+        '      <svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:#f4c430;"><path d="M17.5 14c-1.93 0-3.5 1.57-3.5 3.5s1.57 3.5 3.5 3.5 3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5zm0 5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM6.5 14C4.57 14 3 15.57 3 17.5S4.57 21 6.5 21s3.5-1.57 3.5-3.5S8.43 14 6.5 14zm0 5c-.83 0-1.5-.67-1.5-1.5S5.67 16 6.5 16s1.5.67 1.5 1.5S7.33 19 6.5 19z"/></svg>',
+        '    </div>',
+        '    <div>',
+        '      <div style="color:#fff;font-size:1.05rem;font-weight:800;">Bobby\'s Motorbike Rental</div>',
+        '      <div style="color:#888;font-size:0.72rem;letter-spacing:1px;text-transform:uppercase;">Santa Fe, Bantayan Island</div>',
+        '    </div>',
+        '  </div>',
+        '  <div style="color:#555;font-size:0.7rem;text-align:right;">'+today+'</div>',
+        '</div>',
+        // Status banner
+        '<div style="padding:28px 32px;text-align:center;background:linear-gradient(135deg,rgba('+hexToRgb(accent)+',0.12) 0%,rgba('+hexToRgb(accent)+',0.04) 100%);border-bottom:1px solid rgba(255,255,255,0.06);">',
+        '  <div style="font-size:2.8rem;font-weight:900;color:'+accent+';letter-spacing:4px;line-height:1;">'+statusText+'</div>',
+        '  <div style="color:#888;font-size:0.78rem;margin-top:6px;text-transform:uppercase;letter-spacing:2px;">Booking ' + (isApproved?'Approved':'Rejected') + '</div>',
+        '  <div style="display:inline-block;background:rgba('+hexToRgb(accent)+',0.1);border:1px solid rgba('+hexToRgb(accent)+',0.3);color:'+accent+';font-size:1.1rem;font-weight:800;padding:6px 20px;border-radius:25px;margin-top:12px;letter-spacing:2px;">' + (b.bookingID||'–') + '</div>',
+        '</div>',
+        // Ticket divider
+        ticketDivider(bgDark, accent),
+        // Details
+        '<div style="padding:22px 32px;">',
+        '  <div style="color:'+accent+';font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px;">Booking Details</div>',
+        '  <table style="width:100%;border-collapse:collapse;">',
+        row('Customer', b.name),
+        row('Nationality', b.nationality + ' · ' + b.gender),
+        row('Contact', b.phone),
+        detailRow,
+        '  </table>',
+        '</div>',
+        // Admin message
+        ticketDivider(bgDark, accent),
+        '<div style="padding:22px 32px;">',
+        '  <div style="color:'+accent+';font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;">Message from Bobby\'s</div>',
+        '  <div style="background:rgba('+hexToRgb(accent)+',0.07);border:1px solid rgba('+hexToRgb(accent)+',0.2);border-radius:10px;padding:14px 16px;color:#ddd;font-size:0.9rem;line-height:1.6;font-style:italic;">"'+noteText+'"</div>',
+        '</div>',
+        // Next steps
+        '<div style="padding:0 32px 22px;">',
+        '  <div style="color:#444;font-size:0.72rem;line-height:1.6;">' + (isApproved
+            ? 'Please bring your valid Government ID on pickup day. For questions, message us on WhatsApp: +63 907 352 7234'
+            : 'We apologize for the inconvenience. Please contact us on WhatsApp to check availability on other dates: +63 907 352 7234') + '</div>',
+        '</div>',
+        // Footer
+        '<div style="padding:18px 32px;background:'+bgMid+';border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">',
+        '  <div>',
+        '    <div style="color:#fff;font-size:0.78rem;font-weight:700;margin-bottom:2px;">Bobby\'s Motorbike Rental</div>',
+        '    <div style="color:#666;font-size:0.7rem;">Barangay Talisay, Santa Fe, Bantayan Island · bobbymotorental.xyz</div>',
+        '  </div>',
+        '  <div style="text-align:right;"><div style="color:#25D366;font-size:0.7rem;font-weight:700;">+63 907 352 7234</div></div>',
+        '</div>',
+        // Bottom stripe
+        '<div style="height:3px;background:linear-gradient(90deg,#f4c430,'+accent+',#f4c430);"></div>',
+        '</div>'
+    ].join('');
+}
+
+function row(label, val){
+    return '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);">' +
+        '<td style="color:#888;font-size:0.75rem;text-transform:uppercase;letter-spacing:1px;padding:7px 0;padding-right:16px;white-space:nowrap;">'+label+'</td>' +
+        '<td style="color:#fff;font-size:0.88rem;font-weight:600;padding:7px 0;">'+val+'</td></tr>';
+}
+
+function ticketDivider(bg, accent){
+    return '<div style="display:flex;align-items:center;padding:0 24px;">' +
+        '<div style="width:20px;height:20px;background:'+bg+';border-radius:50%;margin-right:-10px;flex-shrink:0;border-right:1px solid rgba(255,255,255,0.05);"></div>' +
+        '<div style="flex:1;border-top:2px dashed rgba(255,255,255,0.07);margin:0 6px;"></div>' +
+        '<div style="width:20px;height:20px;background:'+bg+';border-radius:50%;margin-left:-10px;flex-shrink:0;border-left:1px solid rgba(255,255,255,0.05);"></div>' +
+        '</div>';
+}
+
+function hexToRgb(hex){
+    var r = parseInt(hex.slice(1,3),16);
+    var g = parseInt(hex.slice(3,5),16);
+    var b = parseInt(hex.slice(5,7),16);
+    return r+','+g+','+b;
+}
+</script>
+</body>
+</html>
