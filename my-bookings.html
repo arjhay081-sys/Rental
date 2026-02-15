@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6Y1830Q316"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-6Y1830Q316');
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings – Bobby's Motorbike Rental</title>
+    <meta name="description" content="View and manage your motorbike rental bookings at Bobby's Motorbike Rental, Bantayan Island.">
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        :root{
+            --gold:#f4c430;--teal:#14b878;--green:#25D366;
+            --red:#ff6b6b;--orange:#fb923c;
+            --bg:#06090f;--card:rgba(255,255,255,0.04);
+            --border:rgba(255,255,255,0.09);--muted:#888;
+        }
+        body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:#fff;min-height:100vh;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+        @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+        /* HEADER */
+        header{background:rgba(6,9,15,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200;}
+        nav{max-width:1100px;margin:0 auto;padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+        .logo img{height:40px;border-radius:8px;}
+        .nav-links{display:flex;align-items:center;gap:.4rem;list-style:none;flex-wrap:wrap;}
+        .nav-links a{color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:600;padding:.3rem .6rem;border-radius:8px;transition:all .2s;}
+        .nav-links a:hover{color:#fff;background:rgba(255,255,255,.06);}
+        .nav-links a.active{color:var(--gold);}
+        .nav-links .book-btn{background:linear-gradient(135deg,#f4c430,#ffd700);color:#000!important;padding:.4rem .9rem;border-radius:20px;font-weight:800;}
+        .nav-user{display:flex;align-items:center;gap:.6rem;}
+        .nav-user img{width:30px;height:30px;border-radius:50%;border:2px solid var(--gold);}
+        .nav-user span{font-size:.8rem;font-weight:700;color:#fff;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+        .btn-so{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.3rem .7rem;border-radius:8px;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .2s;}
+        .btn-so:hover{border-color:rgba(255,107,107,.4);color:var(--red);}
+
+        /* LOGIN SCREEN */
+        .login-screen{min-height:calc(100vh - 60px);display:flex;align-items:center;justify-content:center;padding:2rem;}
+        .login-box{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:2.5rem 2rem;max-width:400px;width:100%;text-align:center;animation:fadeUp .4s ease;}
+        .login-box img.login-logo{width:60px;height:60px;border-radius:12px;margin:0 auto 1.25rem;display:block;border:1px solid rgba(244,196,48,.3);}
+        .login-box h2{font-size:1.35rem;font-weight:900;margin-bottom:.5rem;}
+        .login-box h2 span{color:var(--gold);}
+        .login-box p{color:var(--muted);font-size:.87rem;line-height:1.6;margin-bottom:1.75rem;}
+        .btn-google{display:flex;align-items:center;justify-content:center;gap:.75rem;width:100%;background:#fff;color:#1f2937;border:none;padding:.9rem 1.5rem;border-radius:12px;font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+        .btn-google:hover{background:#f8f8f8;transform:translateY(-1px);box-shadow:0 6px 20px rgba(0,0,0,.4);}
+        .btn-google svg{width:22px;height:22px;flex-shrink:0;}
+        .login-note{color:#555;font-size:.72rem;margin-top:1rem;line-height:1.5;}
+
+        /* MAIN */
+        .main{max-width:860px;margin:0 auto;padding:1.5rem 1.25rem 4rem;}
+        .page-header{margin-bottom:1.5rem;animation:fadeUp .35s ease;}
+        .page-header h1{font-size:1.5rem;font-weight:900;}
+        .page-header h1 span{color:var(--gold);}
+        .page-header p{color:var(--muted);font-size:.85rem;margin-top:.3rem;}
+
+        /* BOOKING CARDS */
+        .bookings-list{display:grid;gap:1.25rem;}
+        .bcard{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:16px;overflow:hidden;animation:fadeUp .3s ease both;}
+        .bcard.tour-type{border-left-color:var(--teal);}
+        .bcard.st-approved{border-left-color:var(--green);}
+        .bcard.st-rejected{border-left-color:var(--red);}
+
+        .bcard-head{padding:.85rem 1.1rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;}
+        .bcard-head-left{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+        .badge-type{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:2px 7px;border-radius:5px;}
+        .badge-type.bike{background:rgba(244,196,48,.12);color:var(--gold);border:1px solid rgba(244,196,48,.3);}
+        .badge-type.tour{background:rgba(20,184,120,.1);color:var(--teal);border:1px solid rgba(20,184,120,.3);}
+        .bcard-id{font-size:.92rem;font-weight:800;}
+        .badge-st{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;padding:2px 9px;border-radius:20px;}
+        .badge-st.pending{background:rgba(251,146,60,.12);color:var(--orange);border:1px solid rgba(251,146,60,.3);}
+        .badge-st.approved{background:rgba(37,211,102,.1);color:var(--green);border:1px solid rgba(37,211,102,.3);}
+        .badge-st.rejected{background:rgba(255,107,107,.1);color:var(--red);border:1px solid rgba(255,107,107,.3);}
+
+        .bcard-body{padding:.85rem 1.1rem;display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+        .cf label{display:block;color:var(--muted);font-size:.6rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;}
+        .cf span{color:#fff;font-size:.84rem;font-weight:600;}
+        .c-gold{color:var(--gold)!important;}
+        .c-teal{color:var(--teal)!important;}
+        .c-green{color:var(--green)!important;}
+        .c-red{color:var(--red)!important;}
+        .c-orange{color:var(--orange)!important;}
+
+        /* GCash / payment box */
+        .gcash-box{margin:.25rem 1.1rem .85rem;padding:.9rem 1rem;background:rgba(20,184,120,.07);border:1px solid rgba(20,184,120,.25);border-radius:10px;}
+        .gcash-box h4{color:var(--teal);font-size:.8rem;font-weight:800;margin-bottom:.55rem;display:flex;align-items:center;gap:.4rem;}
+        .gcash-box h4 svg{width:14px;height:14px;fill:currentColor;flex-shrink:0;}
+        .gcash-box p{color:#aaa;font-size:.8rem;line-height:1.8;}
+        .gcash-box strong{color:#fff;}
+        .gcash-num{display:inline-block;background:rgba(20,184,120,.15);border:1px solid rgba(20,184,120,.4);border-radius:8px;padding:3px 12px;color:var(--teal);font-weight:900;font-size:1rem;letter-spacing:.5px;}
+        .ref-steps{margin:.6rem 0 0;padding-left:.1rem;list-style:none;display:flex;flex-direction:column;gap:.3rem;}
+        .ref-steps li{font-size:.78rem;color:#aaa;display:flex;align-items:flex-start;gap:.5rem;}
+        .ref-steps li::before{content:attr(data-n);background:var(--teal);color:#000;font-weight:900;font-size:.6rem;border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+
+        /* Admin note */
+        .admin-note{margin:.25rem 1.1rem .85rem;padding:.65rem .9rem;background:rgba(37,211,102,.07);border:1px solid rgba(37,211,102,.2);border-radius:10px;font-size:.8rem;color:#aaa;font-style:italic;line-height:1.5;}
+        .admin-note strong{color:var(--green);font-style:normal;}
+
+        /* DELETE BUTTON AREA */
+        .bcard-actions{padding:.5rem 1.1rem .7rem;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+        .btn-delete{background:transparent;border:1px solid rgba(255,107,107,.3);color:var(--red);font-size:.72rem;font-weight:700;padding:.35rem .9rem;border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
+        .btn-delete:hover{background:rgba(255,107,107,.08);border-color:var(--red);}
+        .btn-delete svg{width:12px;height:12px;fill:currentColor;}
+        .btn-delete:disabled{opacity:.35;cursor:not-allowed;}
+        .contact-note{font-size:.72rem;color:#555;font-style:italic;}
+
+        /* CHAT */
+        .chat-section{border-top:1px solid var(--border);}
+        .chat-toggle{width:100%;background:none;border:none;padding:.7rem 1.1rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;color:var(--muted);font-size:.8rem;font-weight:700;transition:background .2s;}
+        .chat-toggle:hover{color:#fff;background:rgba(255,255,255,.03);}
+        .chat-toggle-left{display:flex;align-items:center;gap:.5rem;}
+        .chat-toggle svg.ic{width:14px;height:14px;fill:currentColor;}
+        .chat-unread-badge{background:var(--red);color:#fff;font-size:.6rem;font-weight:900;padding:1px 6px;border-radius:10px;min-width:18px;text-align:center;display:none;}
+        .chat-arrow{width:12px;height:12px;fill:currentColor;transition:transform .25s;}
+        .chat-toggle.open .chat-arrow{transform:rotate(180deg);}
+
+        .chat-body{display:none;flex-direction:column;}
+        .chat-body.open{display:flex;}
+
+        .chat-msgs{max-height:300px;min-height:100px;overflow-y:auto;padding:.75rem 1rem;display:flex;flex-direction:column;gap:.5rem;scroll-behavior:smooth;}
+        .chat-msgs::-webkit-scrollbar{width:4px;}
+        .chat-msgs::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
+
+        .msg{max-width:82%;display:flex;flex-direction:column;gap:2px;}
+        .msg.mine{align-self:flex-end;align-items:flex-end;}
+        .msg.theirs{align-self:flex-start;align-items:flex-start;}
+        .msg-bubble{padding:.55rem .85rem;border-radius:14px;font-size:.83rem;line-height:1.55;word-break:break-word;}
+        .msg.mine .msg-bubble{background:rgba(244,196,48,.15);border:1px solid rgba(244,196,48,.22);border-radius:14px 14px 4px 14px;}
+        .msg.theirs .msg-bubble{background:rgba(255,255,255,.07);border:1px solid var(--border);color:#ddd;border-radius:14px 14px 14px 4px;}
+        .msg-meta{font-size:.62rem;color:#555;}
+
+        .chat-empty{text-align:center;color:#444;font-size:.8rem;margin:auto;padding:1.5rem 1rem;}
+
+        /* Input row */
+        .chat-input-row{padding:.6rem .85rem;border-top:1px solid var(--border);display:flex;gap:.45rem;align-items:center;}
+        .chat-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:10px;padding:.5rem .85rem;color:#fff;font-size:.85rem;font-family:inherit;outline:none;transition:border-color .2s;}
+        .chat-input:focus{border-color:rgba(244,196,48,.4);}
+        .chat-input::placeholder{color:#444;}
+        .btn-send{background:var(--gold);border:none;color:#000;width:34px;height:34px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s;}
+        .btn-send:hover{opacity:.85;}
+        .btn-send svg{width:15px;height:15px;fill:#000;}
+
+        /* STATES */
+        .state-box{text-align:center;padding:3.5rem 1.5rem;color:var(--muted);}
+        .state-box svg{width:40px;height:40px;fill:currentColor;opacity:.2;display:block;margin:0 auto 1rem;}
+        .state-box h3{font-size:1rem;color:#666;margin-bottom:.5rem;}
+        .btn-action{display:inline-block;margin:.4rem .25rem 0;padding:.6rem 1.4rem;border-radius:20px;font-weight:800;text-decoration:none;font-size:.85rem;}
+        .btn-action.gold{background:var(--gold);color:#000;}
+        .btn-action.teal{background:var(--teal);color:#fff;}
+        .spinner{width:28px;height:28px;border:3px solid rgba(244,196,48,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin:2.5rem auto;}
+
+        /* Confirm modal */
+        .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem;display:none;}
+        .modal-bg.show{display:flex;}
+        .modal-card{background:#0d1117;border:1px solid var(--border);border-radius:18px;padding:2rem 1.5rem;max-width:380px;width:100%;text-align:center;}
+        .modal-card h3{font-size:1.05rem;font-weight:800;margin-bottom:.6rem;}
+        .modal-card p{color:var(--muted);font-size:.85rem;line-height:1.6;margin-bottom:1.5rem;}
+        .modal-btns{display:flex;gap:.6rem;}
+        .modal-btn{flex:1;padding:.7rem;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;transition:opacity .2s;}
+        .modal-btn:hover{opacity:.85;}
+        .modal-btn.cancel{background:rgba(255,255,255,.07);color:#aaa;}
+        .modal-btn.confirm{background:var(--red);color:#fff;}
+
+        @media(max-width:600px){
+            .bcard-body{grid-template-columns:1fr;}
+            .nav-links{display:none;}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html" class="logo"><img src="BMR.png" alt="BMR"></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="tour.html">Tours</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="my-bookings.html" class="active">My Bookings</a></li>
+            <li><a href="booking.html" class="book-btn">Book Now</a></li>
+        </ul>
+        <div class="nav-user" id="nav-user" style="display:none;">
+            <img id="nav-avatar" src="" alt="">
+            <span id="nav-name"></span>
+            <button class="btn-so" onclick="signOut()">Sign out</button>
+        </div>
+    </nav>
+</header>
+
+<!-- LOGIN SCREEN -->
+<div id="login-screen" class="login-screen" style="display:none;">
+    <div class="login-box">
+        <img class="login-logo" src="BMR.png" alt="BMR">
+        <h2>My <span>Bookings</span></h2>
+        <p>Sign in with your Google account to view your bookings, check status, and chat with the BMR team.</p>
+        <button class="btn-google" onclick="signInGoogle()">
+            <svg viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            </svg>
+            Continue with Google
+        </button>
+        <div class="login-note">Your Google info is only used to link your bookings.<br>We never post on your behalf.</div>
+    </div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal" class="main" style="display:none;">
+    <div class="page-header">
+        <h1>My <span>Bookings</span></h1>
+        <p id="portal-sub">Loading your bookings…</p>
+    </div>
+    <div class="bookings-list" id="bookings-list">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="modal-bg" id="del-modal">
+    <div class="modal-card">
+        <h3>Cancel Booking?</h3>
+        <p>This will permanently delete your booking. <strong style="color:#fff;">This cannot be undone.</strong></p>
+        <div class="modal-btns">
+            <button class="modal-btn cancel" onclick="closeDelModal()">Keep It</button>
+            <button class="modal-btn confirm" id="del-confirm-btn" onclick="confirmDelete()">Yes, Delete</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+    apiKey:            'AIzaSyCG1hOzMXJDQCcj-_OlmYBu9mV8xdN15bI',
+    authDomain:        'bobbys-motorbike-rental.firebaseapp.com',
+    projectId:         'bobbys-motorbike-rental',
+    storageBucket:     'bobbys-motorbike-rental.firebasestorage.app',
+    messagingSenderId: '22999361272',
+    appId:             '1:22999361272:web:3f2abf58faf2e8f8e3fd0d'
+});
+
+var auth     = firebase.auth();
+var db       = firebase.firestore();
+var provider = new firebase.auth.GoogleAuthProvider();
+
+// ── AUTH ──
+function signInGoogle() {
+    auth.signInWithPopup(provider).catch(function(e) {
+        alert('Sign-in failed: ' + e.message);
+    });
+}
+function signOut() { auth.signOut(); }
+
+var currentUser      = null;
+var chatListeners    = {};
+var bookingListeners = [];
+
+auth.onAuthStateChanged(function(user) {
+    currentUser = user;
+    if (!user) {
+        show('login-screen');
+        hide('portal');
+        hide('nav-user');
+        bookingListeners.forEach(function(u){ u(); });
+        bookingListeners = [];
+        Object.values(chatListeners).forEach(function(u){ u(); });
+        chatListeners = {};
+        return;
+    }
+    hide('login-screen');
+    show('portal');
+    show('nav-user');
+    gel('nav-avatar').src       = user.photoURL || '';
+    gel('nav-name').textContent = user.displayName || user.email;
+    loadMyBookings(user.uid);
+});
+
+// ── LOAD BOOKINGS ──
+function loadMyBookings(uid) {
+    gel('bookings-list').innerHTML = '<div class="spinner"></div>';
+    var bikes = [], tours = [], gotBikes = false, gotTours = false;
+
+    function merge() {
+        if (!gotBikes || !gotTours) return;
+        var all = bikes.concat(tours).sort(function(a,b){
+            return (b.createdAt ? b.createdAt.toMillis() : 0) -
+                   (a.createdAt ? a.createdAt.toMillis() : 0);
+        });
+        gel('portal-sub').textContent = all.length + ' booking' + (all.length !== 1 ? 's' : '') + ' found';
+        if (!all.length) {
+            gel('bookings-list').innerHTML =
+                '<div class="state-box">' +
+                '<svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>' +
+                '<h3>No bookings yet</h3>' +
+                '<p>Ready to explore Bantayan Island?</p>' +
+                '<a href="booking.html" class="btn-action gold">Book a Bike</a>' +
+                '<a href="tour.html" class="btn-action teal">Book a Tour</a>' +
+                '</div>';
+            return;
+        }
+        gel('bookings-list').innerHTML = all.map(buildCard).join('');
+        all.forEach(function(d){ listenChat(d._id, uid); });
+    }
+
+    var u1 = db.collection('bookings').where('userUID','==',uid)
+        .onSnapshot(function(snap){
+            bikes = snap.docs.map(function(d){ return Object.assign({}, d.data(), {_id:d.id, _type:'bike'}); });
+            gotBikes = true; merge();
+        }, function(){ gotBikes = true; merge(); });
+
+    var u2 = db.collection('tour_bookings').where('userUID','==',uid)
+        .onSnapshot(function(snap){
+            tours = snap.docs.map(function(d){ return Object.assign({}, d.data(), {_id:d.id, _type:'tour'}); });
+            gotTours = true; merge();
+        }, function(){ gotTours = true; merge(); });
+
+    bookingListeners = [u1, u2];
+}
+
+// ── BUILD CARD ──
+function buildCard(d) {
+    var isBike = d._type === 'bike';
+    var st     = (d.status || 'pending').toLowerCase();
+    var stCap  = st[0].toUpperCase() + st.slice(1);
+    var stCol  = st === 'approved' ? 'c-green' : st === 'rejected' ? 'c-red' : 'c-orange';
+
+    var fields = isBike
+        ? cf('Bike',     '<span class="c-gold">' + esc(d.bikeName) + '</span>') +
+          cf('Date',     esc(d.formattedDate || '–')) +
+          cf('Duration', esc(d.rentalDays || '–') + ' day(s)') +
+          cf('Bikes',    esc(d.numBikes || 1)) +
+          cf('Total',    '<span class="c-gold">₱' + Number(d.totalPrice || 0).toLocaleString() + '</span>') +
+          cf('Status',   '<span class="' + stCol + '">' + stCap + '</span>')
+        : cf('Tour Date',  '<span class="c-teal">' + esc(d.formattedDate || '–') + '</span>') +
+          cf('Start Time', esc(d.startTime || '–')) +
+          cf('Duration',   '8 Hours') +
+          cf('Total',      '<span class="c-teal">₱840</span>') +
+          cf('Status',     '<span class="' + stCol + '">' + stCap + '</span>') +
+          cf('Requests',   esc(d.stops || 'None'));
+
+    // GCash deposit instructions — only for pending
+    var gcashHtml = '';
+    if (st === 'pending') {
+        var dep = isBike ? '₱' + Number(d.bikePrice || 0) + ' per bike' : '₱840';
+        gcashHtml =
+            '<div class="gcash-box">' +
+            '<h4><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>Pay GCash Deposit to Confirm</h4>' +
+            '<p>Send <strong>' + dep + '</strong> to:<br>' +
+            '<span class="gcash-num">09073527234</span> — Bobby<br><br>' +
+            'Then type your <strong>last 4 digits of your GCash Ref No.</strong> in the chat below 👇</p>' +
+            '<ul class="ref-steps">' +
+            '<li data-n="1">Open GCash → check your transaction history</li>' +
+            '<li data-n="2">Find the payment to <strong>09073527234</strong></li>' +
+            '<li data-n="3">Open the chat below and type: <strong style="color:var(--gold)">Ref: XXXX</strong> (last 4 digits)</li>' +
+            '<li data-n="4">We will verify and approve your booking ✅</li>' +
+            '</ul>' +
+            '</div>';
+    }
+
+    // Admin note
+    var noteHtml = d.adminNotes
+        ? '<div class="admin-note"><strong>💬 BMR Team:</strong> "' + esc(d.adminNotes) + '"</div>'
+        : '';
+
+    // Action row — delete or contact note
+    var actionsHtml = '<div class="bcard-actions">';
+    if (st === 'pending' || st === 'rejected') {
+        actionsHtml +=
+            '<button class="btn-delete" onclick="askDelete(\'' + d._id + '\',\'' + d._type + '\')">' +
+            '<svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>' +
+            (st === 'rejected' ? 'Delete & Re-book' : 'Cancel Booking') +
+            '</button>';
+    } else if (st === 'approved') {
+        actionsHtml +=
+            '<span class="contact-note">✅ Booking confirmed — to make changes contact BMR Team in chat</span>';
+    }
+    actionsHtml += '</div>';
+
+    var id = d._id;
+    return '<div class="bcard ' + (isBike ? '' : 'tour-type ') + 'st-' + st + '" id="bc-' + id + '">' +
+        '<div class="bcard-head">' +
+            '<div class="bcard-head-left">' +
+                '<span class="badge-type ' + (isBike ? 'bike' : 'tour') + '">' + (isBike ? '🏍 Bike' : '🚶 Tour') + '</span>' +
+                '<span class="bcard-id">' + esc(d.bookingID || id) + '</span>' +
+                '<span class="badge-st ' + st + '">' + stCap + '</span>' +
+            '</div>' +
+            '<span style="color:var(--muted);font-size:.7rem;">' + timeAgo(d.createdAt) + '</span>' +
+        '</div>' +
+        '<div class="bcard-body">' + fields + '</div>' +
+        gcashHtml + noteHtml + actionsHtml +
+        '<div class="chat-section">' +
+            '<button class="chat-toggle" id="ct-' + id + '" onclick="toggleChat(\'' + id + '\')">' +
+                '<div class="chat-toggle-left">' +
+                    '<svg class="ic" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>' +
+                    'Chat with BMR' +
+                    '<span class="chat-unread-badge" id="ubadge-' + id + '">0</span>' +
+                '</div>' +
+                '<svg class="chat-arrow" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg>' +
+            '</button>' +
+            '<div class="chat-body" id="cb-' + id + '">' +
+                '<div class="chat-msgs" id="cm-' + id + '">' +
+                    '<div class="chat-empty">No messages yet — type your GCash Ref No. or any message below 👇</div>' +
+                '</div>' +
+                '<div class="chat-input-row">' +
+                    '<input class="chat-input" id="ci-' + id + '" placeholder="e.g. Ref: 1234 — or any message…" onkeydown="onKey(event,\'' + id + '\')" maxlength="500">' +
+                    '<button class="btn-send" onclick="sendText(\'' + id + '\')" title="Send">' +
+                        '<svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>' +
+                    '</button>' +
+                '</div>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+}
+
+function cf(label, val) {
+    return '<div class="cf"><label>' + label + '</label><span>' + val + '</span></div>';
+}
+
+// ── CHAT TOGGLE ──
+function toggleChat(id) {
+    var btn  = gel('ct-' + id);
+    var body = gel('cb-' + id);
+    if (!btn || !body) return;
+    var isOpen = btn.classList.toggle('open');
+    body.classList.toggle('open', isOpen);
+    if (isOpen) {
+        markRead(id);
+        var cm = gel('cm-' + id);
+        if (cm) setTimeout(function(){ cm.scrollTop = cm.scrollHeight; }, 60);
+    }
+}
+
+// ── REAL-TIME CHAT LISTENER ── (no orderBy — sorted client-side, no index needed)
+function listenChat(bookingId, uid) {
+    if (chatListeners[bookingId]) return;
+    var unsub = db.collection('chats').doc(bookingId).collection('messages')
+        .onSnapshot(function(snap) {
+            var docs = snap.docs.slice().sort(function(a,b){
+                var at = a.data().createdAt ? a.data().createdAt.toMillis() : 0;
+                var bt = b.data().createdAt ? b.data().createdAt.toMillis() : 0;
+                return at - bt;
+            });
+            drawMsgs(bookingId, docs, uid);
+            var unread = snap.docs.filter(function(d){
+                var m = d.data();
+                return m.senderType === 'admin' && m.readByCustomer === false;
+            }).length;
+            var badge = gel('ubadge-' + bookingId);
+            if (badge) {
+                badge.textContent   = unread;
+                badge.style.display = unread > 0 ? 'inline-block' : 'none';
+            }
+        }, function(e){ console.warn('Chat error:', e.code); });
+    chatListeners[bookingId] = unsub;
+}
+
+function drawMsgs(bookingId, docs, uid) {
+    var cm = gel('cm-' + bookingId);
+    if (!cm) return;
+    if (!docs.length) {
+        cm.innerHTML = '<div class="chat-empty">No messages yet — type your GCash Ref No. or any message below 👇</div>';
+        return;
+    }
+    var wasBottom = cm.scrollTop + cm.clientHeight >= cm.scrollHeight - 20;
+    cm.innerHTML = docs.map(function(d){
+        var m    = d.data();
+        var mine = m.senderUID === uid;
+        var time = m.createdAt ? new Date(m.createdAt.toMillis()).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}) : '';
+        return '<div class="msg ' + (mine ? 'mine' : 'theirs') + '">' +
+               '<div class="msg-bubble">' + esc(m.text || '') + '</div>' +
+               '<div class="msg-meta">' + (mine ? 'You' : '🏍 BMR Team') + ' · ' + time + '</div>' +
+               '</div>';
+    }).join('');
+    var btn = gel('ct-' + bookingId);
+    if (wasBottom || (btn && btn.classList.contains('open'))) {
+        cm.scrollTop = cm.scrollHeight;
+    }
+    if (btn && btn.classList.contains('open')) markRead(bookingId);
+}
+
+function markRead(bookingId) {
+    if (!currentUser) return;
+    db.collection('chats').doc(bookingId).collection('messages')
+        .where('senderType','==','admin')
+        .get().then(function(snap){
+            var unread = snap.docs.filter(function(d){ return d.data().readByCustomer === false; });
+            if (!unread.length) return;
+            var batch = db.batch();
+            unread.forEach(function(d){ batch.update(d.ref, {readByCustomer: true}); });
+            batch.commit().catch(function(){});
+        }).catch(function(){});
+}
+
+// ── SEND TEXT ──
+function onKey(e, id) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendText(id); }
+}
+
+function sendText(bookingId) {
+    if (!currentUser) return;
+    var inp  = gel('ci-' + bookingId);
+    var text = (inp.value || '').trim();
+    if (!text) return;
+    inp.value = '';
+    db.collection('chats').doc(bookingId).collection('messages').add({
+        text:           text,
+        senderUID:      currentUser.uid,
+        senderName:     currentUser.displayName || currentUser.email,
+        senderType:     'customer',
+        readByAdmin:    false,
+        readByCustomer: true,
+        createdAt:      firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(function(e){
+        inp.value = text;
+        alert('Could not send — check your connection.');
+        console.error(e);
+    });
+}
+
+// ── DELETE BOOKING ──
+var pendingDeleteId   = null;
+var pendingDeleteType = null;
+
+function askDelete(bookingId, bookingType) {
+    pendingDeleteId   = bookingId;
+    pendingDeleteType = bookingType;
+    gel('del-modal').classList.add('show');
+}
+
+function closeDelModal() {
+    gel('del-modal').classList.remove('show');
+    pendingDeleteId   = null;
+    pendingDeleteType = null;
+}
+
+function confirmDelete() {
+    if (!pendingDeleteId || !currentUser) return;
+    var btn = gel('del-confirm-btn');
+    btn.disabled    = true;
+    btn.textContent = 'Deleting…';
+
+    var collection = pendingDeleteType === 'bike' ? 'bookings' : 'tour_bookings';
+    var bookingId  = pendingDeleteId;
+
+    // Cascade: delete chat messages first, then booking
+    db.collection('chats').doc(bookingId).collection('messages').get()
+        .then(function(snap){
+            var batch = db.batch();
+            snap.docs.forEach(function(d){ batch.delete(d.ref); });
+            return batch.commit();
+        })
+        .catch(function(){ /* chat may not exist — that's fine */ })
+        .finally(function(){
+            db.collection(collection).doc(bookingId).delete()
+                .then(function(){
+                    if (chatListeners[bookingId]) {
+                        chatListeners[bookingId]();
+                        delete chatListeners[bookingId];
+                    }
+                    closeDelModal();
+                    btn.disabled    = false;
+                    btn.textContent = 'Yes, Delete';
+                })
+                .catch(function(e){
+                    alert('Could not delete: ' + e.message);
+                    btn.disabled    = false;
+                    btn.textContent = 'Yes, Delete';
+                });
+        });
+}
+
+// ── UTILS ──
+function gel(id) { return document.getElementById(id); }
+function show(id) {
+    var el = gel(id);
+    if (!el) return;
+    var flexEls = ['nav-user','login-screen'];
+    el.style.display = (flexEls.indexOf(id) >= 0) ? 'flex' : '';
+}
+function hide(id) { var el = gel(id); if (el) el.style.display = 'none'; }
+function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function timeAgo(ts) {
+    if (!ts || !ts.toMillis) return '';
+    var m = Math.floor((Date.now() - ts.toMillis()) / 60000);
+    if (m < 1) return 'Just now';
+    if (m < 60) return m + 'm ago';
+    var h = Math.floor(m / 60);
+    if (h < 24) return h + 'h ago';
+    return Math.floor(h / 24) + 'd ago';
+}
+</script>
+</body>
+</html>
